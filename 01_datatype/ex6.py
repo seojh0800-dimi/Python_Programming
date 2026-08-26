@@ -71,7 +71,7 @@ print()             # 인덱스 1을 반환하고, 다음 위치(인덱스 2)로
 
 # 같은 Iterable 데이터 타입인 리스트로 변환 가능
 print()
-
+print(list(s))
 # 문자열 언패킹도 가능
 a, b, c, d, e, f = s
 print(a, b, c, d, e, f)
