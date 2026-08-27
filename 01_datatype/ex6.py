@@ -14,18 +14,24 @@ a = "Python"
 # a[0] = "J"                          # 문자열 내용 수정이 가능할까?
 print(type(a[0]))
 
+b = [10, 20, 30]
+b[0] = 40
+print(b)
+
+b.__setitem__
+
 # 문자열 메소드로 변경해도 원본은 그대로, 새로운 문자열 객체가 생성됨
 b = a.upper()
 
-print()
-print()
-print()                             # 같은 객체인가?
+print(a,b)
+print(id(a), id(b))
+print(a is b)                             # 같은 객체인가?
 
 # 문자열 연결 시 + 연산도 새로운 문자열 객체를 만듦
 a = "Hello"
-print()
+print(a, id(a))
 a += " Python"
-print()
+print(a, id(a))
 
 # 문자열 vs 리스트 실행 시간 테스트
 import time
@@ -34,7 +40,7 @@ my_str = ""
 
 start = time.time()
 for i in range(10):
-    pass                                    # 매번 새로운 문자열 객체를 생성
+    my_str += str(i)                                    # 매번 새로운 문자열 객체를 생성
 end = time.time()
 
 print(my_str)
@@ -44,8 +50,8 @@ print(f"실행 시간: {end - start:.6f}초")
 my_list = []
 
 start = time.time()
-for i in range(10):
-    pass                                    # 동일 리스트 객체에 append
+for i in range(1000000):
+    my_list.append(str(i))                                    # 동일 리스트 객체에 append
 
 s = "".join(my_list)
 end = time.time()
@@ -65,12 +71,12 @@ for ch in s:
 print()
 
 # Iterator에 의해 반복 처리
-                # 문자열(Iterable)에 iter()를 호출하면 Iterator 객체가 생성됨
-print()             # 인덱스 0을 반환하고, 다음 위치(인덱스 1)로 이동
-print()             # 인덱스 1을 반환하고, 다음 위치(인덱스 2)로 이동
+it = iter(s)                # 문자열(Iterable)에 iter()를 호출하면 Iterator 객체가 생성됨
+print(next(it))             # 인덱스 0을 반환하고, 다음 위치(인덱스 1)로 이동
+print(next(it))             # 인덱스 1을 반환하고, 다음 위치(인덱스 2)로 이동
 
 # 같은 Iterable 데이터 타입인 리스트로 변환 가능
-print()
+print(list(s))
 print(list(s))
 # 문자열 언패킹도 가능
 a, b, c, d, e, f = s
@@ -84,30 +90,31 @@ print(a, b, c, d, e, f)
 a = "Python"
 
 # 인덱싱
-print()                         # P 출력
-print()                   # 타입은?
-print()                # n 출력
-print()                        # n 출력 -> 인덱싱 할 때마다 새로운 문자열이 생성됨
+print(a[0])                         # P 출력
+print(type(a[0]))                   # 타입은?
+print(a[len(a) - 1])                # n 출력
+print(a[-1])                        # n 출력 -> 인덱싱 할 때마다 새로운 문자열이 생성됨
 
 # 슬라이싱 (start:end-1:step)
-print()                       # Py 출력
-print()                        # Py 출력 (처음부터)
-print()                        # thon 출력 (끝까지)
-print()                       # th 출력 -> 슬라이싱도 할 때마다 새로운 문자열이 생성됨
+print(a[0:2])                       # Py 출력
+print(a[:2])                        # Py 출력 (처음부터)
+print(a[2:6])                       # thon 출력 (끝까지)
+print(a[2:])                        # thon 출력 (끝까지)
+print(a[2:4])                       # th 출력 -> 슬라이싱도 할 때마다 새로운 문자열이 생성됨
 
-print()                       # Python 출력 (step이 양수이면 끝까지, 마지막 인덱스 포함)
-print()                     # Python 출력
-print()                       # Pto 출력 (2칸씩)
+print(a[::1])                       # Python 출력 (step이 양수이면 끝까지, 마지막 인덱스 포함)
+print(a[0:6:1])                     # Python 출력
+print(a[::2])                       # Pto 출력 (2칸씩)
 
-print()                      # nohtyP 출력 (step이 음수이면 처음까지, 0번 인덱스 포함)
-print()                    # 출력 안됨 (step이 음수이면 start가 end보다 커야 함)
-print()                    # noth 출력
+print(a[::-1])                      # nohtyP 출력 (step이 음수이면 처음까지, 0번 인덱스 포함)
+print(a[1:5:-1])                    # 출력 안됨 (step이 음수이면 start가 end보다 커야 함)
+print(a[5:1:-1])                    # noht 출력
 
 # 인덱싱과 슬라이싱 차이
-# print()                     # IndexError
+# print(a[100])                     # IndexError
 
-print()                     # thon 출력
-print()       # 빈 문자열
+print(a[2:100])                     # thon 출력
+print(a[100:200])                   # 빈 문자열
 
 
 # =========================================================
@@ -116,7 +123,7 @@ print()       # 빈 문자열
 
 # 1️⃣ 학번을 인덱싱만을 이용해서 학년, 반, 번호로 잘라내기
 s = "1301"
-print(f"")                  # ✅ "1학년 3반 1번" 출력
+print(f"{s[0]}학년 {s[1]}반 {s[3]}번")                  # ✅ "1학년 3반 1번" 출력
 
 # 2️⃣ 학번을 슬라이싱만을 이용해서 학년, 반, 번호로 잘라내기
-print(f"")                  # ✅ "1학년 3반 1번" 출력
+print(f"{s[0:1]}학년 {s[1:2]}반 {s[3:4]}번")                  # ✅ "1학년 3반 1번" 출력
