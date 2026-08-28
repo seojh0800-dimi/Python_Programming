@@ -17,7 +17,7 @@ match grade:
         print("우수")
     case "B":
         print("양호")
-    case "C":
+    case "C" | "D":
         print("보통")
     case _: #default
         print("알 수 없음")
