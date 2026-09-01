@@ -27,3 +27,10 @@ print()
 
 for i in range(5, 0, -1):
     print(i, end=" ")
+
+# 1~ 10까지 합
+tot = 0
+for i in range(1, 11):
+    tot += i
+print(f"\n합 : {tot}")
+
