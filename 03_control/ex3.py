@@ -32,5 +32,5 @@ for i in range(5, 0, -1):
 tot = 0
 for i in range(1, 11):
     tot += i
-print(f"\n합 : {tot}")
-
+else:
+    print(f"\n합 : {tot}")
