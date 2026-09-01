@@ -34,3 +34,20 @@ for i in range(1, 11):
     tot += i
 else:
     print(f"\n합 : {tot}")
+
+
+print(sum(range(1, 11)))    # 1~10까지 합
+
+s = "hi한글寒國😊😘!@#$%^&^"
+
+for c in s:
+    print(c, end=" ")
+print()
+print(len(s))
+
+
+# 구구단 출력 
+for i in range(2, 10):
+    for j in range(1, 10):
+        print(f"{i} * {j} = {i*j}", end="\t")
+    print()
