@@ -78,6 +78,11 @@ print(a)
 
 a = [3, 4, 1, 5, 2]
 
+print(len(a)) # 길이
+print(sum(a)) # 합계
+print(max(a)) # 최대값
+print(min(a)) # 최소값
+
 
 # 리스트 합치기
 
