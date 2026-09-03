@@ -44,7 +44,7 @@ print(id(a))
 for data in a:
     print(data)
 
-for i, data in enumerate(a):
+for i, data in enumerate(a): #index와 data를 동시에 가져오기
     print(i, data)
 
 
