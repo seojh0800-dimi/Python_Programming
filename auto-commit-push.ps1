@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $repositoryPath = $PSScriptRoot
-$intervalSeconds = 300
+$intervalSeconds = 30
 
 Set-Location $repositoryPath
 

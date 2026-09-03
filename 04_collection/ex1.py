@@ -44,7 +44,8 @@ print(id(a))
 for data in a:
     print(data)
 
-
+for i, data in enumerate(a):
+    print(i, data)
 
 
 # ===========================================================
