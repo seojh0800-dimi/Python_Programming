@@ -97,6 +97,9 @@ print(a)
 a.extend([20, 30]) # 여러개 추가
 print(a)
 
+a.insert(3, 100) # 특정 위치에 추가
+print(a)
+
 # 리스트 반복하기
 
 
