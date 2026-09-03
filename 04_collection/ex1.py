@@ -97,12 +97,12 @@ print(a)
 a.extend([20, 30]) # 여러개 추가
 print(a)
 
-a.insert(3, 100) # 특정 위치에 추가
+a.insert(3, 90) # 특정 위치에 추가
 print(a)
 
 # 리스트 반복하기
 print(a * 2) # 리스트 반복하기
 
 # 멤버십 연산자
-print(10 in a) # 10이 a에 있는지 확인
+print(1 in a) # 10이 a에 있는지 확인
 print(100 in a) # 100이 a에 있는지 확인
