@@ -82,7 +82,9 @@ print(len(a)) # 길이
 print(sum(a)) # 합계
 print(max(a)) # 최대값
 print(min(a)) # 최소값
-
+print(sorted(a)) # 정렬 (오름차순)
+print(id(b))
+print(sorted(a, reverse=True)) # 정렬 (내림차순)
 
 # 리스트 합치기
 
