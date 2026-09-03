@@ -20,14 +20,14 @@ while ($true) {
         if ($changes -or [int]$pendingPush -gt 0) {
             git push
 
-            Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] 커밋 및 푸시 완료"
+            Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Commit and push complete"
         }
         else {
-            Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] 변경 사항 없음"
+            Write-Host "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] No changes"
         }
     }
     catch {
-        Write-Warning "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] 자동 커밋/푸시 실패: $($_.Exception.Message)"
+        Write-Warning "[$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')] Commit/push failed: $($_.Exception.Message)"
     }
 
     Start-Sleep -Seconds $intervalSeconds

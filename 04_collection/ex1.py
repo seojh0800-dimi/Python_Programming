@@ -31,7 +31,7 @@ print(list(s))
 print(id(a), a)
 a[0] = 10
 print(a)
-print(id(a))
+print(id(a)) 
 
 
 
@@ -41,6 +41,9 @@ print(id(a))
 # ===========================================================
 
 # 리스트 순회
+for data in a:
+    print(data)
+
 
 
 
