@@ -82,6 +82,14 @@ nums = [1, 2, 3, 4]
 
 print(*nums)                        # 리스트 요소들을 개별값으로 풀어서 전달
 
+a, b, c, d = nums
+print(a, b, c, d)
+
+a, *b = nums
+print(a, b)
+
+
+
 # zip함수: 반복 가능(iterable)한 여러 객체를 인자로 받아
 # 동일한 인덱스에 있는 원소들끼리 튜플로 묶어주는 파이썬 내장 함수v
 subjects = ["국어", "수학", "영어"]
