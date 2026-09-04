@@ -98,7 +98,8 @@ subjects = ["국어", "수학", "영어"]
 scores = [80, 90, 95]
 
 zip(subjects, scores)
-print(a,b,c)
+a, b, c = zip(subjects, scores)
+print(a, b, c)
 print(list(zip(subjects, scores)))
 
 # ===========================================================
