@@ -99,6 +99,7 @@ scores = [80, 90, 95]
 
 zip(subjects, scores)
 print(a,b,c)
+print(list(zip(subjects, scores)))
 
 # ===========================================================
 #  List Comprehension
