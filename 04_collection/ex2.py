@@ -105,28 +105,37 @@ print(list(zip(subjects, scores)))
 
 for subject, score in zip(subjects, scores):
     print(f"{subject}: {score}점")
+
+
 # ===========================================================
 #  List Comprehension
 #  for문을 이용하여 각 원소에 식을 적용하여 리스트를 만드는 방법
 # ===========================================================
 
 # 1 ~ 10의 제곱수 리스트 만들기
-
+squares = [x**2 for x in range(1, 11)]
+print(squares)
 
 # 1 ~ 10 중 짝수의 제곱수로 된 리스트 만들기 (필터링 if문 추가)
-
+even_squares = [x**2 for x in range(1, 11) if x % 2 == 0]
+print(even_squares)
 
 # 1 ~ 10 중 짝수면 "짝", 홀수면 "홀" 출력하기
-
+parity = ["짝" if x % 2 == 0 else "홀" for x in range(1, 11)]
+print(parity)
 
 # 각 이름의 길이로 이루어진 리스트 만들기
-
+names = ["Alice", "Bob", "Charlie", "David"]
+lengths = [len(name) for name in names]
+print(lengths)
 
 # 길이가 5 이상인 이름만 뽑기
-
+long_names = [name for name in names if len(name) >= 5]
+print(long_names)
 
 # 중첩 for문도 가능
-
+pairs = [(x, y) for x in range(1, 4) for y in range(1, 4)]
+print(pairs)
 
 
 # =========================================================
