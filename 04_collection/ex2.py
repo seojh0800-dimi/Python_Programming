@@ -60,8 +60,11 @@ print(ori, result)
 
 
 # 깊은 복사를 하려면?
-
-
+import copy
+ori = [[1, 2], [3, 4]]
+result2 = copy.deepcopy(ori)
+result2[0].append(10)
+print(ori, result2)
 
 # ===========================================================
 #  그 외
