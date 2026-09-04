@@ -24,7 +24,7 @@ print(langs)
 langs.pop()                         # 인덱스 생략 시 마지막 항목 삭제
 print(langs)
 
-print(langs.index("python"))     # "python" 인덱스 찾기
+print(langs.index("python"))        # "python" 인덱스 찾기
 
 langs.reverse()                     # 리스트 순서를 거꾸로 뒤집기
 print(langs)
