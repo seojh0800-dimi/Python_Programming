@@ -90,14 +90,14 @@ print(a, b)
 
 nums2 = [5, 6]
 print(nums + nums2)
-
+print([*nums, *nums2])
 
 # zip함수: 반복 가능(iterable)한 여러 객체를 인자로 받아
 # 동일한 인덱스에 있는 원소들끼리 튜플로 묶어주는 파이썬 내장 함수v
 subjects = ["국어", "수학", "영어"]
 scores = [80, 90, 95]
 
-
+zip(subjects, scores)
 
 
 # ===========================================================
