@@ -102,6 +102,9 @@ a, b, c = zip(subjects, scores)
 print(a, b, c)
 print(list(zip(subjects, scores)))
 
+
+for subject, score in zip(subjects, scores):
+    print(f"{subject}: {score}점")
 # ===========================================================
 #  List Comprehension
 #  for문을 이용하여 각 원소에 식을 적용하여 리스트를 만드는 방법
