@@ -24,6 +24,6 @@ print(a, type(a))
 
 if a is None:
     print("a is None")
-
+ 
 # I'll be back
 print("I'll be back")

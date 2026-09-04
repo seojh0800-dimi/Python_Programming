@@ -24,7 +24,7 @@ print(max)  # 20
 # a가 짝수면 "짝" , 홀수면 "홀" 출력
 print("짝") if a % 2 == 0 else print("홀")
 
-
+ 
 # 90점 이상이면 A, 80점 이상이면 B, 70점 이상이면 C, 70점 미만이면 F
 score = 85
 # if score >= 90:

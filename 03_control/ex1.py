@@ -9,7 +9,7 @@ elif score >= 70:
 else:
     print("D")
 
-#match문
+#match문 
 grade = "A"
 
 match grade:
