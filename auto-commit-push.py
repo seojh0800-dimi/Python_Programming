@@ -92,6 +92,11 @@ class AutoCommitApp:
                 messagebox.showwarning("Git 저장소 아님", ".git 폴더가 있는 저장소를 선택하세요.")
 
     def git(self, *arguments):
+        startup_info = None
+        creation_flags = 0
+        if os.name == "nt":
+            creation_flags = subprocess.CREATE_NO_WINDOW
+
         result = subprocess.run(
             ["git", *arguments],
             cwd=self.repository.get(),
@@ -100,6 +105,8 @@ class AutoCommitApp:
             encoding="utf-8",
             errors="replace",
             check=False,
+            creationflags=creation_flags,
+            startupinfo=startup_info,
         )
         if result.returncode != 0:
             details = (result.stderr or result.stdout).strip()
