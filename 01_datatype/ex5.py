@@ -6,7 +6,7 @@ a = "Hello, Python"
 print(dir(a))                       # str 자료형이 제공하는 속성과 메소드 목록
 print(dir(10))                      # int 자료형이 제공하는 속성과 메소드 목록
 print(dir([]))                      # list 자료형이 제공하는 속성과 메소드 목록
-
+ 
 # len() 함수: 객체의 길이를 반환하는 파이썬 내장 함수
 print(len(a))                       # 문자열의 길이
 print(len([1, 2, 3]))               # 리스트의 길이(요소의 개수)

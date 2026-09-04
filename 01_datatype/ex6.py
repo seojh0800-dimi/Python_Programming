@@ -112,7 +112,7 @@ print(a[5:1:-1])                    # noht 출력
 
 # 인덱싱과 슬라이싱 차이
 # print(a[100])                     # IndexError
-
+ 
 print(a[2:100])                     # thon 출력
 print(a[100:200])                   # 빈 문자열
 
