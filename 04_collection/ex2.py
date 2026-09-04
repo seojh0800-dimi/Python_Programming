@@ -88,6 +88,8 @@ print(a, b, c, d)
 a, *b = nums
 print(a, b)
 
+nums2 = [5, 6]
+print(nums + nums2)
 
 
 # zip함수: 반복 가능(iterable)한 여러 객체를 인자로 받아
