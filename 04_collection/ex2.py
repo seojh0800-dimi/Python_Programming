@@ -63,7 +63,7 @@ print(ori, result)
 import copy
 ori = [[1, 2], [3, 4]]
 result2 = copy.deepcopy(ori)
-result2[0].append(10)
+result2[0].append(10)   # 사본만 바뀜
 print(ori, result2)
 
 # ===========================================================
@@ -73,9 +73,9 @@ print(ori, result2)
 # 중첩리스트
 nested_list = [1, ["a", ["x", "y"], "b"], 2]
 
-print(nested_list)         # x 출력하기
-print(nested_list)            # b 출력하기
-print(nested_list)               # 2 출력하기
+print(nested_list[1][1][0])         # x 출력하기
+print(nested_list[1][2])            # b 출력하기
+print(nested_list[2])               # 2 출력하기
 
 # 리스트 언패킹
 
