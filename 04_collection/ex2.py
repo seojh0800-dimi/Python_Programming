@@ -53,7 +53,10 @@ ori = [[1, 2], [3, 4]]
 result = ori.copy()
 result.append(10)
 print(ori, result)
+print(id(result))
 
+result[0].append(10)
+print(ori, result)
 
 
 # 깊은 복사를 하려면?
