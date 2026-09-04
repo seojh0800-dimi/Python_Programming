@@ -6,7 +6,7 @@
 
 langs = ["c", "c++", "java", "python"]
 
-                  # 끝에 추가
+langs.append("go")                  # 끝에 추가
 print(langs)
 
                # 인덱스 2에 "c#" 추가
