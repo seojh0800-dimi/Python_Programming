@@ -185,7 +185,7 @@ print(result)                       # ✅ [90.0, 80.0, 70.0]
 
 
 
-print(round(0.5))
-print(round(1.5))
-print(round(2.5))
-print(round(3.5))
+print(round(0.5)) #0
+print(round(1.5)) #2
+print(round(2.5)) #2
+print(round(3.5)) #4
