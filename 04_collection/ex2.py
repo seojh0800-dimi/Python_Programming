@@ -163,7 +163,7 @@ print(result)                       # ✅ ['합격', '불합격', '합격', '불
 # 3️⃣ 1 ~ 100 중 3 또는 5의 배수의 합 구하기 (sum() 함수 이용)
 result = sum([x for x in range(1, 101) if x % 3 == 0 or x % 5 == 0])
 print(result)                       # ✅ 2418 출력
-
+ 
 
 # 4️⃣ n을 포함하고 있는 단어만 뽑기
 words = ["apple", "banana", "kiwi", "mango"]
