@@ -180,4 +180,5 @@ scores = [
 ]
 
 result = [sum(A) / len(A) for A in zip(*scores)]
+result = [round(x, 1) for x in result]
 print(result)                       # ✅ [90.0, 80.0, 70.0] 
