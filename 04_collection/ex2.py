@@ -180,4 +180,4 @@ scores = [
 ]
 
 result = [sum(A) / len(A) for A in zip(*scores)]
-print(result)                       # ✅ [90.0, 80.0, 70.0]
+print(result)                       # ✅ [90.0, 80.0, 70.0] 
