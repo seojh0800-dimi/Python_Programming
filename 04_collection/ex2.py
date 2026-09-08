@@ -113,29 +113,35 @@ for subject, score in zip(subjects, scores):
 # ===========================================================
 
 # 1 ~ 10의 제곱수 리스트 만들기
-squares = [x**2 for x in range(1, 11)]
-print(squares)
+result = [x**2 for x in range(1, 11)]
+print(result)
 
 # 1 ~ 10 중 짝수의 제곱수로 된 리스트 만들기 (필터링 if문 추가)
-even_squares = [x**2 for x in range(1, 11) if x % 2 == 0]
-print(even_squares)
+result = [x**2 for x in range(1, 11) if x % 2 == 0]
+print(result)
+
 
 # 1 ~ 10 중 짝수면 "짝", 홀수면 "홀" 출력하기
-parity = ["짝" if x % 2 == 0 else "홀" for x in range(1, 11)]
-print(parity)
+result = ["짝" if x % 2 == 0 else "홀" for x in range(1, 11)]
+print(result)
+
 
 # 각 이름의 길이로 이루어진 리스트 만들기
-names = ["Alice", "Bob", "Charlie", "David"]
+names = ["pororo", "crong", "poby", "eddy"]
+# [6, 5, 4, 4]
 lengths = [len(name) for name in names]
 print(lengths)
 
 # 길이가 5 이상인 이름만 뽑기
-long_names = [name for name in names if len(name) >= 5]
-print(long_names)
+result = [name for name in names if len(name) >= 5]
+print(result)
 
 # 중첩 for문도 가능
-pairs = [(x, y) for x in range(1, 4) for y in range(1, 4)]
-print(pairs)
+# x = 0 1 2
+# Y = 0 1 2
+# X * Y 로 리스트 만들기
+result = [x * y for x in range(3) for y in range(3)]
+print(result)                       # ✅ [0, 0, 0, 0, 1, 2, 0, 2, 4] 출력
 
 
 # =========================================================
@@ -145,24 +151,24 @@ print(pairs)
 # 1️⃣ 60점 이상인 점수만 뽑기
 scores = [85, 42, 73, 55, 90, 68, 35, 100]
 
-result = []
+result = [score for score in scores if score >= 60]
 print(result)                       # ✅ [85, 73, 90, 68, 100] 출력
 
 
 # 2️⃣ 60점 이상인 경우 "합격", 60점 미만은 "불합격"으로 처리
-result = []
+result = ["합격" if score >= 60 else "불합격" for score in scores]
 print(result)                       # ✅ ['합격', '불합격', '합격', '불합격', '합격', '합격', '불합격', '합격']
 
 
 # 3️⃣ 1 ~ 100 중 3 또는 5의 배수의 합 구하기 (sum() 함수 이용)
-result = None
+result = sum([x for x in range(1, 101) if x % 3 == 0 or x % 5 == 0])
 print(result)                       # ✅ 2418 출력
 
 
 # 4️⃣ n을 포함하고 있는 단어만 뽑기
 words = ["apple", "banana", "kiwi", "mango"]
 
-result = []  
+result = [word for word in words if "n" in word]  
 print(result)                       # ✅ ['banana', 'mango'] 출력
 
 
@@ -173,5 +179,5 @@ scores = [
     [80, 70, 60],       # 학생 3
 ]
 
-result = []
+result = [sum(A) / len(A) for A in zip(*scores)]
 print(result)                       # ✅ [90.0, 80.0, 70.0]
