@@ -170,7 +170,7 @@ words = ["apple", "banana", "kiwi", "mango"]
 
 result = [word for word in words if "n" in word]  
 print(result)                       # ✅ ['banana', 'mango'] 출력
-  
+
 
 # 5️⃣ 세 학생의 3과목 점수표에서 과목별 평균 구하기
 scores = [
