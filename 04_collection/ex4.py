@@ -16,7 +16,7 @@ print(t.index(2))                   # 2의 첫번째 인덱스는?
 
 # tuple -> list 변환
 
-
+ 
 # list -> tuple 변환
 
 
