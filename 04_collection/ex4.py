@@ -37,7 +37,7 @@ a, *b, c = t
 print(a, b, c)
 
 t2 = (5, 6)
-
+print(a, *t2)
 
 
 # zip 함수 사용
