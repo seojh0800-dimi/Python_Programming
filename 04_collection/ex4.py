@@ -56,12 +56,17 @@ for subject, score in zip(subjects, scores):
 # 1 ~ 10의 제곱수 튜플 만들기
 # ()는 튜플이 아니라 generator를 생성하는 generator 표현식임
 a = (x**2 for x in range(1, 11))
-print(a, type(a))
+print(a, type(a))  # <class 'generator'>
 
 
 # tuple의 생성자에 generator를 넘겨 값을 순회하면서 튜플을 만듦
+gen = (x**2 for x in range(1, 11))
+print(gen)
 
 
+print(next(gen))
+print(next(gen))
+print(next(gen))
 
 # 두 점의 x, y, z축 좌표값끼리 더한 튜플을 만들기
 p1 = (1, 2, 3)
