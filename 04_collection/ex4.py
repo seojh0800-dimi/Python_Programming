@@ -37,7 +37,7 @@ a, *b, c = t
 print(a, b, c)
 
 t2 = (5, 6)
-print(a, *t2)
+print((a, *t2))
 
 
 # zip 함수 사용
@@ -45,7 +45,8 @@ subjects = ("국어", "수학", "영어")
 scores = (80, 90, 95)
 
 # (('국어', 80), ('수학', 90), ('영어', 95)) 출력하기
-
+for subject, score in zip(subjects, scores):
+    print((subject, score))
 
 
 # ===========================================================
@@ -54,7 +55,8 @@ scores = (80, 90, 95)
 
 # 1 ~ 10의 제곱수 튜플 만들기
 # ()는 튜플이 아니라 generator를 생성하는 generator 표현식임
-
+a = (x**2 for x in range(1, 11))
+print(a, type(a))
 
 
 # tuple의 생성자에 generator를 넘겨 값을 순회하면서 튜플을 만듦
