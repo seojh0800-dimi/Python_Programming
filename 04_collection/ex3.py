@@ -76,6 +76,7 @@ print(min(a))                       # 튜플의 최소값
 print(sum(a))                       # 튜플의 합계
 b = sorted(a)
 print(b)
+print(sorted(a, reverse=True))
 
 # 튜플 합치기
 
