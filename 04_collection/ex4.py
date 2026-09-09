@@ -29,6 +29,14 @@ print(a, b)
 # 튜플 언패킹
 t = (1, 2, 3, 4)
 
+print(*t)
+a, b, c, d = t
+print(a, b, c, d)
+
+a, *b, c = t
+print(a, b, c)
+
+t2 = (5, 6)
 
 
 
