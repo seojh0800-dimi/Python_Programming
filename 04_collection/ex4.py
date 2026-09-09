@@ -22,7 +22,9 @@ print(a, type(a))
 print(tuple(a))
 
 # 튜플을 이용해서 swap하기
-
+a,b = 10, 20
+a,b = b,a
+print(a, b)
 
 # 튜플 언패킹
 t = (1, 2, 3, 4)
