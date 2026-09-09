@@ -15,11 +15,11 @@ print(t.index(2))                   # 2의 첫번째 인덱스는?
 # ===========================================================
 
 # tuple -> list 변환
-a = list(a)
-print(a, type(a))
+# a = list(a)
+# print(a, type(a))
 
 # list -> tuple 변환
-print(tuple(a))
+# print(tuple(a))
 
 # 튜플을 이용해서 swap하기
 a,b = 10, 20
