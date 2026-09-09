@@ -79,7 +79,7 @@ print(b)
 print(sorted(a, reverse=True))
 
 # 튜플 합치기
-
+print(a + (10, 20))
 
 # 튜플은 원본 불가이므로, 원본을 바꾸는 extend, append 메소드가 없음
 
