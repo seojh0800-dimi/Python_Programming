@@ -84,6 +84,8 @@ print(a + (10, 20))
 # 튜플은 원본 불가이므로, 원본을 바꾸는 extend, append 메소드가 없음
 
 # 튜플 반복하기
-
+print(a * 2)
 
 # 멤버십 연산자
+print(3 in a)
+print(6 in a)
