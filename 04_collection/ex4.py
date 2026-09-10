@@ -68,6 +68,20 @@ print(next(gen))
 print(next(gen))
 print(next(gen))
 
+
+for i in gen:
+    print(i, end=" ")
+print()
+
+# 하나의 generator는 순회가 끝나면 소진
+
+# List Comprehension vs Generator Expression
+a = [x for x in range(1, 11)]
+b = (x for x in range(1, 11))
+
+print(a, b)
+print("="*100)
+
 # 두 점의 x, y, z축 좌표값끼리 더한 튜플을 만들기
 p1 = (1, 2, 3)
 p2 = (10, 20, 30)
