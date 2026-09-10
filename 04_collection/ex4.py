@@ -80,6 +80,9 @@ a = [x for x in range(1, 11)]
 b = (x for x in range(1, 11))
 
 print(a, b)
+print(sum(a), sum(a))
+print(sum(b), sum(b))
+
 print("="*100)
 
 # 두 점의 x, y, z축 좌표값끼리 더한 튜플을 만들기
