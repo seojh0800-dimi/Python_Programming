@@ -146,5 +146,5 @@ stocks = (
     (5, 3, 2),
 )
 
-total = sum(A * a for _, A, a in stocks)
+total = sum(price * a for _, price, a in stocks)
 print(f"총액: {total:,}원")                                        # ✅ 총액: 21,000원
