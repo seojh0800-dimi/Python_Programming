@@ -89,9 +89,9 @@ print(sum(b), sum(b))
 result = tuple(x**2 for x in range(1, 11))
 print(result)
 
-
-
 # tuple의 생성자에 generator를 넘겨 값을 순회하면서 튜플을 만듦
+
+
 print("="*100)
 
 # 두 점의 x, y, z축 좌표값끼리 더한 튜플을 만들기
