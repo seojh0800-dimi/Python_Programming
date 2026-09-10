@@ -122,7 +122,7 @@ print(days[hours.index(max(hours))])                              # ✅ 토요�
 # 4️⃣ 가장 높은 점수와 가장 낮은 점수 출력하기
 scores = (90, 85, 78, 92, 88, 76)
 
-print(f"최고 점수: {max(scores)}점, 최저 점수: {min(scores)}점")    # ✅ max 점수: 92점, min 점수: 76점
+print(f"max 점수: {max(scores)}점, min 점수: {min(scores)}점")    # ✅ max 점수: 92점, min 점수: 76점
 
 
 
@@ -135,5 +135,5 @@ stocks = (
 
 # 총 재고 금액 출력
 
-total = sum(price * quantity for _, price, quantity in stocks)
+total = sum(price * a for _, price, a in stocks)
 print(f"총액: {total:,}원")                                        # ✅ 총액: 21,000원
