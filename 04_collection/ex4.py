@@ -87,7 +87,7 @@ print(sum(hours[1:5]))  # ✅ 15시간
 
 
 # 2️⃣ 가장 많이 공부한 시간 출력하기
-print(max(hours))  # ✅ 6시간
+print(max(hours))  # ✅ 6시간 
 
 
 # 3️⃣ 가장 많이 공부한 요일 출력하기
