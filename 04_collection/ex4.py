@@ -95,8 +95,8 @@ print(result)
 p1 = (1, 2, 3)
 p2 = (10, 20, 30)
 
-a = tuple(x + y for x, y in zip(p1, p2))
-print(a)
+result = tuple(x + y for x, y in zip(p1, p2))
+print(result)
 
 
 # =========================================================
