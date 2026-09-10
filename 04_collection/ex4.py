@@ -83,6 +83,12 @@ print(a, b)
 print(sum(a), sum(a))
 print(sum(b), sum(b))
 
+
+# 1~10의 제곱수 튜플 만들기
+# ()는 튜플이 아니라 generator를 생성하는 generator 표현식임
+result = tuple(x**2 for x in range(1, 11))
+print(result, type(result))  # <class 'tuple'>
+
 print("="*100)
 
 # 두 점의 x, y, z축 좌표값끼리 더한 튜플을 만들기
