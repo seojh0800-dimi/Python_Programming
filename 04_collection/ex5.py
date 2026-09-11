@@ -19,6 +19,7 @@ d = {"id": 1301, "name": "강지준", "age": 17}
 print(d)
 # 키로 값 가져오기
 print(d["name"])
+print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
 
 # 에러가 안나게 하려면?
 
