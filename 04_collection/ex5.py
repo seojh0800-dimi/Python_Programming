@@ -19,7 +19,7 @@ d = {"id": 1301, "name": "강지준", "age": 17}
 print(d)
 # 키로 값 가져오기
 print(d["name"])
-print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
+# print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
 
 # 에러가 안나게 하려면?
 
@@ -28,7 +28,14 @@ print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
 # ===========================================================
 # 1. 딕셔너리는 mutable하다. (변경 가능)
 # ===========================================================
+d["age"] += 1
+print(d)
 
+d["phone"] = "010-1234-5678"
+print(d)
+
+del d["phone"]
+print(d)
 
 
 
@@ -37,9 +44,17 @@ print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
 # ===========================================================
 
 # 딕셔너리 순회
+for key in d:
+    print(key, d[key])
 
+for i , key in enumerate(d):
+    print(i, key)
 
+for value in d.values():
+    print(value)
 
+for key, value in d.items():
+    print(key, value)
 # ===========================================================
 # 3. 딕셔너리는 sequence 객체가 아니다. (인덱싱, 슬라이싱 불가)
 # ===========================================================
@@ -52,7 +67,8 @@ print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
 # ===========================================================
 
 d = {"kor": 90, "mat": 85, "eng": 80}
-
+d["kor"] = 100
+print(d)
 
 
 # 키로 가능한 것 : immutable 타입 (숫자형, 불리언, 문자열, 튜플) -> hashable type
