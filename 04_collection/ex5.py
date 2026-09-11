@@ -70,6 +70,9 @@ d = {"kor": 90, "mat": 85, "eng": 80}
 d["kor"] = 100
 print(d)
 
+d[3.14] = 100
+print(d)
+
 
 # 키로 가능한 것 : immutable 타입 (숫자형, 불리언, 문자열, 튜플) -> hashable type
 # 키로 안되는 것 : mutable 타입 (리스트, 딕셔너리, 집합) -> unhashable type
