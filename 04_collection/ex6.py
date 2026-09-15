@@ -24,11 +24,13 @@ print(*d.values())
 a, *b , c = d
 print(a, b, c)
 
-
+print(**d)
 
 
 
 # 위 딕셔너리를 key 리스트와 value 리스트로 만들기
+
+
 
 
 # 리스트를 다시 딕셔너리로 만들기
