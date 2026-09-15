@@ -106,13 +106,28 @@ d = {"kor": 90, "mat": 85, "eng": 80}
 # lambda: 이름 없는(익명) 한 줄짜리 함수를 만듦
 # lambda 매개변수1, 매개변수2, ... : 표현식
 
+# values 기준으로 정렬
+def key(x):
+    return x[1]
 
-
+print(dict(sorted(d.items(), key=key)))
 # 딕셔너리 합치기
 d2 = {"sci": 95, "prog": 100}
 
 
-# 딕셔너리 반복하기
 
+# 정렬기준 설정하기
+# lambda : 이름 없는 (익명) 한줄짜리 함수를 만듦
+# lambda : 매개변수1, 매개변수2 , ... ; 표현식
+print(dict(sorted(d.items(),key=lambda x: x[1])))
+
+
+
+
+# 딕셔너리 반복하기
+# print(d * 2)
 
 # 멤버십 연산자
+print("kor" in d)
+
+print("art" in d)
