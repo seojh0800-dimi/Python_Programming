@@ -19,6 +19,12 @@ d = {"kor": 90, "mat": 85, "eng": 80, "prog": 100}
 
 # 딕셔너리 언패킹
 print(*d)
+print(*d.values())
+
+a, *b , c = d
+print(a, b, c)
+
+
 
 
 
