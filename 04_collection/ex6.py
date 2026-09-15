@@ -24,8 +24,9 @@ print(*d.values())
 a, *b , c = d
 print(a, b, c)
 
-merged = {**d}
-print(merged)
+print({**d})
+
+
 
 # 위 딕셔너리를 key 리스트와 value 리스트로 만들기
 keys = list(d.keys())
