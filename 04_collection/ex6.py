@@ -61,8 +61,9 @@ reversed_dict = {v: k for k, v in odd_square.items()}
 print(reversed_dict)
 
 # 점수 90 이상만 필터링하기
-scores_over_90 = {k: v for k, v in d.items() if v >= 90}
-print(scores_over_90)
+scores = {k: v for k, v in d.items() if v >= 90}
+result = {k: v for k , v in scores.items() if v >= 90}
+print(scores)
 
 # =========================================================
 #  🔥 실습 문제
@@ -70,30 +71,30 @@ print(scores_over_90)
 
 # 1️⃣ 바구니에 있는 과일의 단어 개수 세기
 words = ["apple", "banana", "apple", "cherry", "banana", "apple"]
-fruit_count = {}
+fruit = {}
 for word in words:
-    fruit_count[word] = fruit_count.get(word, 0) + 1
-print(fruit_count)
+    fruit[word] = fruit.get(word, 0) + 1
+print(fruit)
                                     # ✅ {'apple': 3, 'banana': 2, 'cherry': 1}
 
 # 2️⃣ 60점 이상인 경우 합격 설정하기
 scores = {"국어": 85, "영어": 50, "수학": 95, "과학": 40, "사회": 72}
-result_scores = {subject: "합격" if score >= 60 else "불합격" for subject, score in scores.items()}
-print(result_scores)
+result = {subject: "합격" if score >= 60 else "불합격" for subject, score in scores.items()}
+print(result)
                                     # ✅ {'국어': '합격', '수학': '합격', '사회': '합격'}
 
 # 3️⃣ 과목 리스트와 점수 리스트로 딕셔너리 만들기
 subjects = ["국어", "영어", "수학"]
 grades = [90, 80, 100]
-subject_grade = dict(zip(subjects, grades))
-print(subject_grade)
+result = dict(zip(subjects, grades))
+print(result)
                                     # ✅ {'국어': 90, '영어': 80, '수학': 100}
 
 # 4️⃣ 기존 재고에 입고 내역을 합치기 (이미 있는 상품은 합산, 새 상품은 추가)
 stock = {"연필": 10, "지우개": 5, "노트": 3}        # 기존 재고
 incoming = {"지우개": 4, "노트": 7, "볼펜": 12}     # 입고 내역
-new_stock = stock.copy()
-for item, qty in incoming.items():
-    new_stock[item] = new_stock.get(item, 0) + qty
-print(new_stock)
+result = stock.copy()
+for item, a in incoming.items():
+    result[item] = result.get(item, 0) + a
+print(result)
                                     # ✅ {'연필': 10, '지우개': 9, '노트': 10, '볼펜': 12}
