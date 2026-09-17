@@ -22,15 +22,15 @@ print(a & b)
 print(b.difference(a))                    # {5, 6}
 
 # 대칭 차집합 : 한쪽에만 있는 항목
-                    # {1, 2, 5, 6}
-
+print(a.symmetric_difference(b))                    # {1, 2, 5, 6}
+print(a ^ b)
 
 # 부분집합
 x = {1, 2}
 y = {1, 2, 3, 4}
 
-            # 부분집합
-          # 상위집합
+print(x.issubset(y))            # 부분집합
+print(y.isdisjoint(x))          # 상위집합
 
 
 # ===========================================================
