@@ -40,7 +40,7 @@ print(y.isdisjoint(x))          # 상위집합
 s = {100, 10, 30, 5, 5, 5}
 
 # 집합 언패킹
-
+print(*s)
 # set -> list, tuple
 
 
