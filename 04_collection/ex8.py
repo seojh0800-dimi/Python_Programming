@@ -52,6 +52,8 @@ print(tuple(s))
 # list, tuple -> set
 a = [1, 2, 2, 3, 3, 3]
 b = (3, 3, 4, 4, 4, 5)
+print(set(a))
+print(set(b))
 
 
 
