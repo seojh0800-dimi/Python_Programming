@@ -67,17 +67,14 @@ c_class = {"이영희", "최지훈", "박민수"}
 
 # 1️⃣ 두 수업 다 듣는 학생 출력하기
 print(python_class & c_class)
-
                                         # ✅ {'이영희', '박민수'}
 
 
 # 2️⃣ Python만 듣는 학생 출력하기
 print(python_class - c_class)
-
                                         # ✅ {'김철수'}
 
 
 # 3️⃣ 둘 중 하나라도 듣는 학생 출력하기
 print(python_class | c_class)
-
                                         # ✅ {'최지훈', '김철수', '이영희', '박민수'}
