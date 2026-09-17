@@ -3,38 +3,44 @@
 # ===========================================================
 #  딕셔너리 (dict): 키와 값 쌍으로 저장하는 변경 가능한 자료형
 #  딕셔너리의 특징
-#  1. ( mutable, 변경 가능 )
-#  2. ( iterable, 반복 가능 )
-#  3. ( not sequence, 인덱싱과 슬라이싱 불가 )
-#  4. ( unique keys, 고유한 키 )
+#  1. ( mutable )
+#  2. ( iterable )
+#  3. ( non-sequencable,indexing/slicing unavailable )
+#  4. ( key must be unique, value can be duplicated )
 # ===========================================================
 
 # 딕셔너리 생성
 a = {}
 b = dict()
-print(type(a), type(b))
+print(type(a),type(b))
 
-
-d = {"id": 1301, "name": "강지준", "age": 17}
+d = {"id":1301,"name":"marinette","age":17}
 print(d)
+
 # 키로 값 가져오기
 print(d["name"])
-# print(d["phone"])  # 없는 키를 조회하면 KeyError 발생
+# print(d["phone"])
 
 # 에러가 안나게 하려면?
-
+if "phone" in d:
+    print(d["phone"])
+    
+print(d.get("phone", "No phone"))
 
 
 # ===========================================================
 # 1. 딕셔너리는 mutable하다. (변경 가능)
 # ===========================================================
-d["age"] += 1
-print(d)
 
-d["phone"] = "010-1234-5678"
+d["age"]+=1
+print(d)
+d["phone"]="123-4567"
 print(d)
 
 del d["phone"]
+print(d)
+
+print(d.pop("age"))
 print(d)
 
 
@@ -44,22 +50,21 @@ print(d)
 # ===========================================================
 
 # 딕셔너리 순회
-for key in d:
-    print(key, d[key])
+for k in d:
+    print(k,d[k])
+for i, data in enumerate(d):
+    print(i,data)
+for v in d.values():
+    print(v)
+for k,v in d.items():
+    print(k,v)
 
-for i , key in enumerate(d):
-    print(i, key)
-
-for value in d.values():
-    print(value)
-
-for key, value in d.items():
-    print(key, value)
 # ===========================================================
 # 3. 딕셔너리는 sequence 객체가 아니다. (인덱싱, 슬라이싱 불가)
 # ===========================================================
 
-
+d[0]="python"
+print(d)
 
 
 # ===========================================================
@@ -67,10 +72,13 @@ for key, value in d.items():
 # ===========================================================
 
 d = {"kor": 90, "mat": 85, "eng": 80}
-d["kor"] = 100
+d['kor'] = 100
 print(d)
 
-d[3.14] = 100
+d['sci']=80
+print(d)
+
+d[(1,2)]=100
 print(d)
 
 
@@ -92,42 +100,38 @@ print(d)
 # 3. 다시 hash(바뀐key)를 하면 새로운 hash값이 나옴
 # 4. 새 hash값을 이용하여 버킷 인덱스를 계산하고 해시테이블에 조회를 하면 원래 데이터를 찾을 수 없음
 
-
+print(hash(12345))
 
 # ===========================================================
 #  파이썬 내장 함수
 # ===========================================================
 
 d = {"kor": 90, "mat": 85, "eng": 80}
+print(len(d))
+print(sum(d.values()))
+print(min(d),min(d.values()))
+print(max(d),max(d.values()))
 
- 
+print(sorted(d))
+def cmp(x):
+    return x[1]
+
+print(dict(sorted(d.items(),key=cmp)))
+
 
 # 정렬 기준 설정하기
 # lambda: 이름 없는(익명) 한 줄짜리 함수를 만듦
 # lambda 매개변수1, 매개변수2, ... : 표현식
 
-# values 기준으로 정렬
-def key(x):
-    return x[1]
+print(dict(sorted(d.items(),key=lambda x:x[1])))
 
-print(dict(sorted(d.items(), key=key)))
 # 딕셔너리 합치기
 d2 = {"sci": 95, "prog": 100}
-
-
-
-# 정렬기준 설정하기
-# lambda : 이름 없는 (익명) 한줄짜리 함수를 만듦
-# lambda : 매개변수1, 매개변수2 , ... ; 표현식
-print(dict(sorted(d.items(),key=lambda x: x[1])))
-
-
-
+#print(d+d2)
 
 # 딕셔너리 반복하기
-# print(d * 2)
+#print(d*2)
 
 # 멤버십 연산자
 print("kor" in d)
-
 print("art" in d)
