@@ -41,8 +41,13 @@ s = {100, 10, 30, 5, 5, 5}
 
 # 집합 언패킹
 print(*s)
-# set -> list, tuple
 
+a, *b, c = s
+print(a, b, c)
+
+# set -> list, tuple
+print(list(s))
+print(tuple(s))
 
 # list, tuple -> set
 a = [1, 2, 2, 3, 3, 3]
