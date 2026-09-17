@@ -9,17 +9,17 @@ a = {1, 2, 3, 4}
 b = {3, 4, 5, 6}
 
 # 합집합
-                    # {1, 2, 3, 4, 5, 6}
-          
+print(a.union(b))                    # {1, 2, 3, 4, 5, 6}
+print(a | b)          
 
 # 교집합
-                    # {3, 4}
-
+print(a.intersection(b))                    # {3, 4}
+print(a & b)
 
 # 차집합
-                    # {1, 2}
-
-                    # {5, 6}
+print(a.difference(b))                    # {1, 2}
+print(a & b)
+print(b.difference(a))                    # {5, 6}
 
 # 대칭 차집합 : 한쪽에만 있는 항목
                     # {1, 2, 5, 6}
