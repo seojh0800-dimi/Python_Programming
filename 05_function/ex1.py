@@ -21,7 +21,10 @@ def add_sub(a, b):
     return a + b , a - b
 
 print(add_sub(5,3))
+print(*add_sub(5,3))
 
+x,y = add_sub(5,3)
+print(x,y)
 
 
 # ===========================================================
