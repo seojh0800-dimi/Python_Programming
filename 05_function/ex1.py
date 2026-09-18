@@ -9,7 +9,7 @@ print(add(3, 4))
 print(add("hello", "python"))
 print(add([1, 2], [3, 4]))
 print(add((1, 2), (3, 4)))
-
+print(add.__doc__)
 
 
 
