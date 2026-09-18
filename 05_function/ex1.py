@@ -95,7 +95,7 @@ print(profile(**d))
 # - 아빠한테 받은 돈 : 10000원
 # - 엄마한테 받은 돈 : 5000원 => 키워드 가변인자 (딕셔너리)
 
-def pocket_money(start_money, *found_money, **received_money):
+def A(start_money, *found_money, **received_money):
     total = start_money
 
     for money in found_money:
@@ -106,4 +106,4 @@ def pocket_money(start_money, *found_money, **received_money):
 
     return total
 
-print(pocket_money(500, 100, 200, 아빠=10000, 엄마=5000))
+print(A(500, 100, 200, 아빠=10000, 엄마=5000))
