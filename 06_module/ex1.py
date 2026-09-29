@@ -1,20 +1,31 @@
 # 1. 모듈
+import math as m
+
+print(m.factorial(5))
 
 # 자주 사용하는 기능을 모아놓은 파이썬 파일 한 개
 # 모듈에는 함수, 클래스, 변수를 정의할 수 있다.
 
+from math import sqrt
+
+print(sqrt(25))
 # 모듈(패키지)의 종류
 # 1. 표준 라이브러리 모듈(패키지): 파이썬 제공
 # 2. 써드 파티 모듈(패키지): 외부에서 만들어서 배포
 # 3. 사용자 정의 모듈(패키지)
+from math import ceil, floor
+
+print(ceil(3.2))
+print(floor(3.8))
 
 # =====================================================================
 # 1. 파이썬 표준 라이브러리 불러오기 (https://docs.python.org/3/library)
+import sys
 #  - import 모듈명
 #  - from 모듈명 import 함수명
-#  - from 패키지명 import 모듈명 (from 가져올 위치 import 가져올 대상)
-# =====================================================================
-
+print(sys.version)       # 현재 실행 중인 파이썬 인터프리터의 버전
+print(sys.platform)      # 현재 실행 중인 운영체제 플랫폼 식별자
+print(sys.path)          # 파이썬 라이브러리 검색 디렉토리 목록
 # math 모듈: 수학 계산에 필요한 함수와 상수를 제공하는 표준 라이브러리
 import math
 
@@ -58,6 +69,18 @@ print(math.pi)
 
 url = "https://httpbin.org/get"
 
+try:
+    import requests
+except ImportError:
+    print("requests가 설치되어 있지 않습니다. pip install requests로 설치하세요.")
+else:
+    try:
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+        print(response.status_code)
+        print(response.json())
+    except requests.RequestException as error:
+        print("HTTP 요청에 실패했습니다:", error)
 
 
 
@@ -65,6 +88,10 @@ url = "https://httpbin.org/get"
 # 3. 사용자 정의 모듈 만들기
 # ===========================================================
 
+from my_module import add, introduce
+
+print(add(10, 20))
+print(introduce("파이썬"))
 
 
 # __pycache__ 디렉토리란?
