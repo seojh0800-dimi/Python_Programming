@@ -20,7 +20,7 @@ import math
 
 print(dir(math))
 print(math.sqrt(16))
-print(math.pi(50))
+print(math.pi)
 
 
 
