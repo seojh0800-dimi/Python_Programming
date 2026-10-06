@@ -67,7 +67,7 @@ print(math.pi)
 # requests 모듈: HTTP 요청과 응답을 처리하기 위한 써드 파티 모듈
 
 
-url = "https://httpbin.org/get"
+url = "https://httpbin.org/get?user_id=crong"
 
 try:
     import requests
@@ -89,6 +89,7 @@ else:
 # ===========================================================
 
 from my_module import add, introduce
+import mymath
 
 print(add(10, 20))
 print(introduce("파이썬"))
