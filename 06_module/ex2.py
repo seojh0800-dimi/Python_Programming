@@ -21,7 +21,11 @@ print(add(10, 20))
 # ===========================================================
 # 2. __init__에서 re-export한 것 사용하기
 # ===========================================================
+import mypackage as m
 
+print(m.VERSION)
+print(m.add(10, 20))
+print(m.PI)
 
 
 url = "https://httpbin.org/get"

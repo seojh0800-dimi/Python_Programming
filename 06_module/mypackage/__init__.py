@@ -7,3 +7,5 @@ print("__init__")
 VERSION = "1.0.0"
 
 # 3. 패키지 내 모듈을 재수출(re-export)할 때 사용
+# from mypackage.mymath import add, PI   # 절대 임포트
+from .mymath import add, PI            # 상대 임포트
