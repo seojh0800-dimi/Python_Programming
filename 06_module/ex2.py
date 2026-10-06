@@ -10,6 +10,10 @@
 # ===========================================================
 
 from mypackage import mymath
+from mypackage.mymath import PI, add
+
+print(mymath.PI)
+print(mymath.add(10, 20))
 
 
 
