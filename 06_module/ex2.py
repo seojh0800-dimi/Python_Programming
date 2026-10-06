@@ -15,7 +15,8 @@ from mypackage.mymath import PI, add
 print(mymath.PI)
 print(mymath.add(10, 20))
 
-
+print(PI)
+print(add(10, 20))
 
 # ===========================================================
 # 2. __init__에서 re-export한 것 사용하기
