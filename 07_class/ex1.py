@@ -204,6 +204,8 @@ Dog.show_count(d1)
 
 # Student Class 작성하기
 class Student:
+    school = "디미고"
+
     def __init__(self, num, name):
         self.num = num
         self.name = name
@@ -212,7 +214,7 @@ class Student:
 
     def introduce2(self):
         print(f"저는 {Student.school}에 재학중인 {self.num} {self.name} 입니다.")
-        
+
 # 2️⃣ 객체 생성: 생성자 호출
 s1 = Student(1301, "뽀로로")
 s2 = Student(1401, "크롱")
