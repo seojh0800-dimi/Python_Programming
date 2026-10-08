@@ -232,4 +232,4 @@ s2.introduce2()                 # 저는 디미고에 재학중인 1401 크롱 �
 
 # 5️⃣ 클래스 메소드: get_std_cnt() 구현 (총 학생 수 리턴)
 
-# print(f"총 학생 수: {Student.get_std_cnt()}명")   # 총 학생 수: 2명
+print(f"총 학생 수: {Student.get_std_cnt()}명")   # 총 학생 수: 2명
