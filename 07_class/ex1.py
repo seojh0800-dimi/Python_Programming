@@ -155,7 +155,7 @@ class Dog:
         Dog.count += 1
 
     def show_count(self):
-        print(f"현재 {Dog.count}는 총 {Dog.species}마리 입니다.")
+        print(f"현재 {Dog.species}는 총 {Dog.count}마리 입니다.")
 
 
 
