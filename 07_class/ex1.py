@@ -216,12 +216,13 @@ s2 = Student(1401, "크롱")
 # 3️⃣ 인스턴스 메소드: introduce() 구현
 s1.introduce = lambda: print(f"저는 {s1.num} {s1.name} 입니다.")
 s2.introduce = lambda: print(f"저는 {s2.num} {s2.name} 입니다.")
-# s1.introduce()                  # 저는 1301 뽀로로 입니다.
-# s2.introduce()                  # 저는 1401 크롱 입니다.
+s1.introduce()                  # 저는 1301 뽀로로 입니다.
+s2.introduce()                  # 저는 1401 크롱 입니다.
 
 
 # 4️⃣ 클래스 변수: school = "디미고" 추가 -> 인스턴스 메소드: introduce2() 구현
-
+s1.school = "디미고"
+s2.school = "디미고"
 # s1.introduce2()                 # 저는 디미고에 재학중인 1301 뽀로로 입니다.
 # s2.introduce2()                 # 저는 디미고에 재학중인 1401 크롱 입니다.
 
