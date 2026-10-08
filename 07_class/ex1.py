@@ -114,10 +114,12 @@ class Dog:
 d1 = Dog("뭉이", 6)
 print(d1.name, d1.age)
 d1.bark()
+d1.introduce()
 
 d2 = Dog("뽀삐", 4)
 print(d2.name, d2.age)
 d2.bark()
+d2.introduce()
 
 d1.name = "멍멍이"
 print(d1.name)
