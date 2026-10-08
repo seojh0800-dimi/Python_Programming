@@ -178,6 +178,7 @@ d1.species = "멍멍이"
 print(d1.species, d2.species)
 
 # Dog 클래스로 만든 전체 객체 수 세기
+print(Dog.count)
 
 
 # 클래스 메소드 호출: 클래스명.메소드명
