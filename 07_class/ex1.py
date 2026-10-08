@@ -147,6 +147,8 @@ d2.bark()
 # ===========================================================
 class Dog:
     species = "개"
+
+
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -156,7 +158,12 @@ class Dog:
 
 
 # 객체 생성 없이도 클래스 변수 사용 가능
+print(Dog.species)
 
+d1 = Dog("뭉이", 6)
+d2 = Dog("뽀삐", 4)
+
+print(d1.species, d2.species)
 
 
 # 클래스 변수를 바꾼 경우 아래 결과는?
