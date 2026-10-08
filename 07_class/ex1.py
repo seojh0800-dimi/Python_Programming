@@ -205,10 +205,12 @@ Dog.show_count(d1)
 # Student Class 작성하기
 class Student:
     school = "디미고"
+    count = 0
 
     def __init__(self, num, name):
         self.num = num
         self.name = name
+        Student.count += 1
 
     def introduce(self):
         print(f"저는 {self.num} {self.name} 입니다.")
@@ -216,6 +218,8 @@ class Student:
     def introduce2(self):
         print(f"저는 {Student.school}에 재학중인 {self.num} {self.name} 입니다.")
 
+    @classmethod
+    @classmethod
     def get_std_cnt(cls):
         return cls.count
 
