@@ -147,11 +147,12 @@ d2.bark()
 # ===========================================================
 class Dog:
     species = "개"
-
+    count = 0
 
     def __init__(self, name, age):
         self.name = name
         self.age = age
+        Dog.count += 1
 
 
 
