@@ -167,7 +167,8 @@ print(d1.species, d2.species)
 
 
 # 클래스 변수를 바꾼 경우 아래 결과는?
-
+Dog.species = "늑대"
+print(d1.species, d2.species)
 
 
 # 주의) 객체를 사용하여 클래스 변수의 값을 변경한다면?
