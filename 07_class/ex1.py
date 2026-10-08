@@ -107,7 +107,9 @@ class Dog:
 
     def bark(self):
         print(f"{self.name} 멍멍")
-        
+
+    def introduce(self):
+        print(f"저는 {self.name}이고, {self.age}살 입니다.")
 d1 = Dog("뭉이", 6)
 print(d1.name, d1.age)
 d1.bark()
