@@ -219,7 +219,6 @@ class Student:
         print(f"저는 {Student.school}에 재학중인 {self.num} {self.name} 입니다.")
 
     @classmethod
-    @classmethod
     def get_std_cnt(cls):
         return cls.count
 
