@@ -206,14 +206,14 @@ Dog.show_count(d1)
 class Student:
     pass
 
-
 # 1️⃣ 인스턴스 변수: num(학번), name(이름) -> 생성자 구현
-
+def __init__(self, num, name):
+    self.num = num
+    self.name = name
 
 # 2️⃣ 객체 생성: 생성자 호출
-
-# s1 = Student(1301, "뽀로로")
-# s2 = Student(1401, "크롱")
+s1 = Student(1301, "뽀로로")
+s2 = Student(1401, "크롱")
 
 
 # 3️⃣ 인스턴스 메소드: introduce() 구현
