@@ -209,6 +209,7 @@ class Student:
     def __init__(self, num, name):
         self.num = num
         self.name = name
+
     def introduce(self):
         print(f"저는 {self.num} {self.name} 입니다.")
 
