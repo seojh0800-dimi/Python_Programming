@@ -221,7 +221,7 @@ s2.introduce()                  # 저는 1401 크롱 입니다.
 
 
 # 4️⃣ 클래스 변수: school = "디미고" 추가 -> 인스턴스 메소드: introduce2() 구현
-introduce2 = lambda self: print(f"저는 {self.school}에 재학중인 {self.num} {self.name} 입니다.")
+introduce2 = print(f"저는 {self.school}에 재학중인 {self.num} {self.name} 입니다.")
 s1.school = "디미고"
 s2.school = "디미고"
 s1.introduce2()                 # 저는 디미고에 재학중인 1301 뽀로로 입니다.
