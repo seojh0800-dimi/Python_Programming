@@ -151,7 +151,7 @@ class SchoolMember:
         self.phone = phone
 
     def show_info(self):
-        print(f"이름: {self.name}, 전화번호: {self.phone}")
+        print(f"이름: {self.name}, 전화번호: {self.phone})
 
 
 
@@ -177,9 +177,14 @@ class Teacher(SchoolMember):
         print(f"과목: {self.subject}")
 
 
-
 # 1️⃣ 부모 클래스 인스턴스 변수: name(이름), phone(연락처) -> 생성자 구현
+class SchoolMember:
+    def __init__(self, name, phone):
+        self.name = name
+        self.phone = phone
 
+    def show_info(self):
+        print(f"이름: {self.name}, 전화번호: {self.phone}")
 
 # 2️⃣ 자식 클래스 인스턴스 변수 -> 생성자 구현
 # - Student 클래스: grade(학년)
