@@ -151,7 +151,7 @@ class SchoolMember:
         self.phone = phone
 
     def show_info(self):
-        print(f"이름: {self.name}, 연락처: {self.phone}")
+        print(f"이름: {self.name}, 전화번호: {self.phone}")
 
 
 
