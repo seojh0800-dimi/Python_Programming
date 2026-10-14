@@ -2,7 +2,7 @@
 
 # ===========================================================
 #  1. 상속이란?
-#  - (  )의 속성과 메소드를 (  )가 물려받는 것
+#  - ( 부모 클래스 )의 속성과 메소드를 ( 자식 클래스 )가 물려받는 것
 #
 #  - 부모 클래스 = 상위 클래스 = 슈퍼 클래스 = 기반 클래스
 #  - 자식 클래스 = 하위 클래스 = 서브 클래스 = 파생 클래스
@@ -16,19 +16,27 @@
 # ===========================================================
 #  2. 상속이 필요한 이유
 # ===========================================================
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
+    def eat(self):
+        print(f"{self.name}이 밥을 먹는다.")
 
+    def bark(self):
+        print(f"{self.name}: 멍멍")
 
 
 # 위 코드의 문제점은?
-# - (  ) -> 유지 보수가 어려워짐
+# - ( 중복 코드 ) -> 유지 보수가 어려워짐
 # - 공통 부분은 부모 클래스에 한 번만 작성하고, 자식들이 물려받자!
 
 # ===========================================================
 #  상속의 장점
-#  - (  ) : 공통 코드를 부모에 한 번만 작성
-#  - (  ) : 부모만 고치면 모든 자식에 반영됨
-#  - (  ) : 새로운 자식 클래스를 쉽게 추가할 수 있음
+#  - ( 코드 재사용 ) : 공통 코드를 부모에 한 번만 작성
+#  - ( 유지 보수 ) : 부모만 고치면 모든 자식에 반영됨
+#  - ( 확장성 ) : 새로운 자식 클래스를 쉽게 추가할 수 있음
 # ===========================================================
 
 
@@ -75,21 +83,53 @@
 
 # ===========================================================
 #  5. 메소드 오버라이딩 (Method Overriding)
-#  - 부모 클래스에 있는 메소드를 자식 클래스에서 (  )으로 (  )하는 것
-#  - (  ) 관계에서만 발생하고, 메소드 (  )이 동일해야 한다.
-#  - 오버라이딩된 메소드는 부모 메소드가 아닌 (  )가 실행된다.
+#  - 부모 클래스에 있는 메소드를 자식 클래스에서 ( 같은 이름 )으로 ( 재정의 )하는 것
+#  - ( 상속 ) 관계에서만 발생하고, 메소드 ( 시그니처 )이 동일해야 한다.
+#  - 오버라이딩된 메소드는 부모 메소드가 아닌 ( 자식 ) 메소드가 실행된다.
 # ===========================================================
+class Animal:
+    def __init__(self, name):
+        self.name = name
 
+    def eat(self):
+        print(f"{self.name}이 밥을 먹는다.")
 
+    def bark(self):
+        print(f"{self.name}: 멍멍")
+
+class Cat(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def bark(self):
+        print(f"{self.name}: 야옹") 
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+
+    def bark(self):
+        print(f"{self.name}: 멍멍")
 
 # 자식 클래스에서 부모 클래스의 메소드를 오버라이딩 시
 # 부모 클래스의 기능이 필요한 경우 super().메소드명()으로 호출
 
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name)
 
+    def bark(self):
+        super().bark()  # 부모 클래스의 bark() 메소드 호출
+        print(f"{self.name}: 멍멍")  # 자식 클래스의 bark() 메소드 추가 기능
 
 # 메소드 탐색 순서 : 객체 자신의 클래스 → 부모 클래스 → 그 위 부모 → ... → object
+class Animal:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
 
-
+    def show_info(self):
+        print(f"이름: {self.name}, 나이: {self.age}")
 
 # =========================================================
 #  🔥 실습 문제
@@ -97,17 +137,34 @@
 
 # SchoolMember 부모 클래스 작성하기
 class SchoolMember:
-    pass
+    def __init__(self, name, phone):
+        self.name = name
+        self.phone = phone
+
+    def show_info(self):
+        print(f"이름: {self.name}, 연락처: {self.phone}")
 
 
 # Student 자식 클래스 작성하기
-class Student:
-    pass
+class Student(SchoolMember):
+    def __init__(self, name, phone, grade):
+        super().__init__(name, phone)
+        self.grade = grade
+
+    def show_info(self):
+        super().show_info()
+        print(f"학년: {self.grade}학년")
 
 
 # Teacher 자식 클래스 작성하기
-class Teacher:
-    pass
+class Teacher(SchoolMember):
+    def __init__(self, name, phone, subject):
+        super().__init__(name, phone)
+        self.subject = subject
+
+    def show_info(self):
+        super().show_info()
+        print(f"과목: {self.subject}")
 
 
 
