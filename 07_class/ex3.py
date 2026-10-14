@@ -24,7 +24,21 @@ class Dog:
     def bark(self):
         print(f"{self.name}: 멍멍")
 
+class Cat:
+    def __init__(self, name):
+        self.name = name
 
+    def meow(self):
+        print(f"{self.name}: 야옹")
+
+def make_sound(animal):
+    if isinstance(animal, Dog):
+        animal.bark()
+    elif isinstance(animal, Cat):
+        animal.meow()
+
+make_sound(Dog("멍멍이"))
+make_sound(Cat("야옹이"))
 
 # ===========================================================
 #  3. 다형성 구현 (상속 + 오버라이딩)
