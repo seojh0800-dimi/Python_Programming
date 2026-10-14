@@ -189,7 +189,23 @@ class SchoolMember:
 # 2️⃣ 자식 클래스 인스턴스 변수 -> 생성자 구현
 # - Student 클래스: grade(학년)
 # - Teacher 클래스: subject(과목)
+class Student(SchoolMember):
+    def __init__(self, name, phone, grade):
+        super().__init__(name, phone)
+        self.grade = grade
 
+    def show_info(self):
+        super().show_info()
+        print(f"학년: {self.grade}학년")
+
+class Teacher(SchoolMember):
+    def __init__(self, name, phone, subject):
+        super().__init__(name, phone)
+        self.subject = subject
+
+    def show_info(self):
+        super().show_info()
+        print(f"과목: {self.subject}")
 
 # 3️⃣ 자식 객체 생성: 생성자 호출
 
