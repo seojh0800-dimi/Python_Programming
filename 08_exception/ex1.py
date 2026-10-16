@@ -72,6 +72,12 @@ except ValueError as e:
 except ZeroDivisionError as e:
     print("0으로 나눌 수 없습니다.", e)
 
+else:
+    print("결과: ", result)
+
+finally:
+    print("프로그램 종료")
+
 # ===========================================================
 #  4. 예외 직접 발생시키기
 #  - 형식) raise 예외종류("에러 메시지")
