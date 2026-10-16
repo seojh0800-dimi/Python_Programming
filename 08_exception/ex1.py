@@ -139,3 +139,4 @@ for data in [("10", "+", "5"), ("10", "/", "0"), ("10", "%", "3"), ("ten", "+", 
         print(result)
     except Exception as e:
         print("에러:", e)
+
