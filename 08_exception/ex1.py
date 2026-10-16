@@ -106,7 +106,24 @@ except ValueError as e:
 #  - 그 외 연산자의 경우: "지원하지 않는 연산자입니다." 예외 발생
 
 def calc(a, op, b):
-    pass
+    try:
+        a = float(a)
+        b = float(b)
+    except ValueError:
+        raise ValueError("숫자를 입력하세요.")
+
+    if op == "+":
+        return a + b
+    elif op == "-":
+        return a - b
+    elif op == "*":
+        return a * b
+    elif op == "/":
+        if b == 0:
+            raise ZeroDivisionError("0으로 나눌 수 없습니다.")
+        return a / b
+    else:
+        raise ValueError("지원하지 않는 연산자입니다.")
 
 
 # 2️⃣ 계산기 함수 호출 시 예외 처리하기
@@ -117,4 +134,8 @@ def calc(a, op, b):
 #  - 에러: 숫자를 입력하세요.
 
 for data in [("10", "+", "5"), ("10", "/", "0"), ("10", "%", "3"), ("ten", "+", "3")]:
-    pass
+    try:
+        result = calc(*data)
+        print(result)
+    except Exception as e:
+        print("에러:", e)
