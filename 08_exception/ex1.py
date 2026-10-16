@@ -136,7 +136,6 @@ def calc(a, op, b):
 for data in [("10", "+", "5"), ("10", "/", "0"), ("10", "%", "3"), ("ten", "+", "3")]:
     try:
         result = calc(*data)
-        print(result)
     except Exception as e:
         print("에러:", e)
 
