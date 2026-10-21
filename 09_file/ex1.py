@@ -31,10 +31,10 @@ print(FILE_PATH)
 #  - 아래 ( ) 부분에는 write를 직접 작성해야 한다.
 # ===========================================================
 
-# f = open(FILE_PATH, "w", encoding="utf-8")     # 파일 오픈
-# f.write("hello python\n")                     # 파일 쓰기 (주석의 ( ) 부분에 write를 직접 작성하세요)
-# f.close()                                      # 반드시 닫아주기 (주석의 ( ) 부분에 close를 직접 작성하세요)
-# f.close()                                      # 반드시 닫아주기
+f = open(FILE_PATH, "w", encoding="utf-8")     # 파일 오픈
+f.write("hello python\n")                     # 파일 쓰기 (주석의 ( ) 부분에 write를 직접 작성하세요)
+f.close("안녕 파이썬\n")
+f.close()                                      # 반드시 닫아주기
 
 
 # ===========================================================
