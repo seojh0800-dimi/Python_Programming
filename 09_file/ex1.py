@@ -57,17 +57,24 @@ f.close()                                      # 반드시 닫아주기
 #  - for문       : 파일 객체를 반복하며 한 줄씩 읽기 (가장 많이 쓰임)
 # ===========================================================
 
-# with open(FILE_PATH, "r", encoding="utf-8") as f:
-#     content = f.read()                  # 전체를 하나의 문자열로 (여기서 ( )에 read를 직접 작성)
-#     print(content)
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    content = f.read()                  # 전체를 하나의 문자열로 (여기서 ( )에 read를 직접 작성)
+    print(content)
 
-# with open(FILE_PATH, "r", encoding="utf-8") as f:
-#     lines = f.readlines()               # 한 줄씩 읽어 리스트에 담음 (각 줄 끝에 \n 포함, ( )에 readlines를 직접 작성)
-#     print(lines)
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    lines = f.readlines()               # 한 줄씩 읽어 리스트에 담음 (각 줄 끝에 \n 포함, ( )에 readlines를 직접 작성)
+    print(lines)
 
-# with open(FILE_PATH, "r", encoding="utf-8") as f:
-#     for line in f:                      # 파일 객체의 반복자 이용 (가장 많이 쓰임)
-#         print(line.strip())             # 줄바꿈 제거 (여기서 ( )에 strip을 직접 작성)
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    for line in f:                      # 파일 객체의 반복자 이용 (가장 많이 쓰임)
+        print(line.strip())             # 줄바꿈 제거 (여기서 ( )에 strip을 직접 작성)
+
+try:
+    with open(os.path.join(BASE_DIR, "hello.txt"), "r", encoding="utf-8") as f:
+        print(f.read())   
+    
+except FileNotFoundError as e:
+    print("파일을 찾을 수 없습니다. ", e)
 
 
 # ===========================================================
