@@ -33,7 +33,7 @@ print(FILE_PATH)
 
 f = open(FILE_PATH, "w", encoding="utf-8")     # 파일 오픈
 f.write("hello python\n")                     # 파일 쓰기 (주석의 ( ) 부분에 write를 직접 작성하세요)
-f.close("안녕 파이썬\n")
+f.write("안녕 파이썬\n")
 f.close()                                      # 반드시 닫아주기
 
 
