@@ -106,9 +106,6 @@ with open(FILE_PATH, "r", encoding="utf-8") as f:
 #  - try-except로 예외 처리하기
 # ===========================================================
 
-with open(os.path.join(BASE_DIR, "hello.txt"), "r", encoding="utf-8") as f:
-    print(f.read())
-
 try:
     with open(os.path.join(BASE_DIR, "hello.txt"), "r", encoding="utf-8") as f:
         print(f.read())
