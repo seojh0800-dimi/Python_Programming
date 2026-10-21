@@ -125,7 +125,6 @@ def calc(a, op, b):
     else:
         raise ValueError("지원하지 않는 연산자입니다.")
 
-
 # 2️⃣ 계산기 함수 호출 시 예외 처리하기
 # [실행 결과]
 #  - 15
@@ -135,8 +134,7 @@ def calc(a, op, b):
 
 for data in [("10", "+", "5"), ("10", "/", "0"), ("10", "%", "3"), ("ten", "+", "3")]:
     try:
-        result = calc(*data)
-        print(e)
-    except Exception as e:
+        print(calc(*data))
+    except (ValueError, ZeroDivisionError) as e:
         print("에러:", e)
 
