@@ -19,12 +19,12 @@ import json
 #
 #  [json 모듈 함수]
 #  1) 직렬화
-#  - dumps(객체) : 파이썬 (객체) -> JSON 형식 (문자열) (s는 string)
-#  - dump(객체, f) : 파이썬 (객체) -> JSON 형식 (파일)
+#  - dumps(객체) : 파이썬 ( 객체 ) -> JSON 형식 ( 문자열 ) (s는 string)
+#  - dump(객체, f) : 파이썬 ( 객체 ) -> JSON 형식 ( 파일 )
 #
 #  2) 역직렬화
-#  - loads(문자열) : JSON 형식 (문자열) -> 파이썬 (객체)
-#  - load(f) : JSON 형식 (파일) -> 파이썬 (객체)
+#  - loads(문자열) : JSON 형식 ( 문자열 ) -> 파이썬 ( 객체 )
+#  - load(f) : JSON 형식 ( 문자열 ) -> 파이썬 ( 파일 )
 # ===========================================================
 
 
@@ -43,6 +43,7 @@ data = {
     "subjects": ["파이썬", "컴구"],
 }
 
+
 # 직렬화) 파이썬 객체 -> JSON 형식 문자열
 json_str = json.dumps(data, ensure_ascii=False, indent=4)
 print(json_str, type(json_str))
@@ -50,8 +51,8 @@ print(json_str, type(json_str))
 # 역직렬화) JSON 형식 문자열 -> 파이썬 객체
 parsed = json.loads(json_str)
 print(parsed)
-print(parsed["scores"][0])      # 100 출력
-print(parsed["subjects"][1])      # 컴구 출력
+print(parsed["scores"][0])                      # 100 출력
+print(parsed["subjects"][1])                      # 컴구 출력
 
 
 # ===========================================================

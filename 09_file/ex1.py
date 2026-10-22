@@ -1,141 +1,105 @@
-# 예외 처리 (Exception Handling)
+# 파일 처리
+
+import os
+
+# 이 파일이 있는 폴더 기준으로 경로 만들기
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+print(BASE_DIR)
+
+FILE_PATH = os.path.join(BASE_DIR, "test.txt")
+print(FILE_PATH)
 
 # ===========================================================
-#  1. 예외 처리란?
-#  - ( 에외 ): 프로그램 실행 중에 발생하는 오류
-#  - ( 예외 처리 ): 오류가 발생해도 프로그램이 비정상 종료되지 않도록
-#    미리 대비하여 처리하는 것
+#  1. 파일 열기
+#  - 형식) open(파일경로, 모드, encoding="utf-8")
 #
-#  [오류의 종류]
-#  - 문법 오류(SyntaxError): 코드 작성 규칙을 어겨서 실행 전에 발생
-#  - 예외(Exception): 문법은 맞지만 실행 중에 발생 (예: 0으로 나누기)
+#  [파일 열기 모드]
+#  - r(read)   : ( 읽기 ) 모드, 파일이 없으면 오류 발생
+#  - w(write)  : ( 쓰기 ) 모드, 파일이 없으면 새로 만들고
+#                이미 있으면 기존 내용을 모두 삭제한 후 새로 작성
+#  - a(append) : ( 추가 ) 모드, 기존 내용을 유지한 채 뒤에 내용을 추가
 #
-#  [자주 만나는 예외]
-#  - ZeroDivisionError: 0으로 나눌 때
-#  - IndexError: 리스트의 범위를 벗어난 인덱스에 접근할 때
-#  - ValueError: 값의 형식이 맞지 않을 때 (예: int("abc"))
-#  - KeyError: 딕셔너리에 없는 키로 접근할 때
-#  - TypeError: 자료형이 맞지 않는 연산을 할 때 (예: 1 + "a")
+#  - 한글이 깨지지 않도록 encoding="utf-8"을 함께 지정한다.
+#  - 파일을 다 사용하면 반드시 ( close )로 닫아준다.
 # ===========================================================
-
-# 아래 코드 예상 결과는?
-# print(10 / 0)                         # ( ZeroDivisionError )
-# print([1, 2, 3][10])                  # ( IndexError )
-# print(int("abc"))                     # ( ValueError )
-# d = {"a": 1}
-# print(d["b"])                         # ( KeyError )
-# print(1 + "2")                        # ( TypeError )
-
-# -> 프로그램이 종료되지 않게 하려면 예상되는 오류는 처리하기
 
 
 # ===========================================================
-#  2. try-except 기본 문법
-#  - 형식) try:
-#              예외가 발생할 수 있는 코드
-#          except:
-#              예외가 발생했을 때 실행할 코드
-#  - ( try ) 블록에서 예외가 발생하면 나머지 코드는 건너뛰고
-#    ( except ) 블록으로 이동한다.
-#  - 예외가 발생하지 않으면 except 블록은 실행되지 않는다.
+#  2. 파일 쓰기
+#  - 형식) f.write("문자열")
+#  - write()는 줄바꿈을 자동으로 해주지 않으므로 ( \n )를 직접 넣어야 한다.
 # ===========================================================
 
-# try:
-#     num = int(input("숫자 => "))        # 예외 발생 가능한 코드
-#     print(10/num)
-# except:
-#     print("숫자를 입력하세요.")
-
-# print("프로그램 계속 진행")
+f = open(FILE_PATH, "w", encoding="utf-8")     # 파일 오픈
+f.write("hello python\n")                       # 파일 쓰기
+f.write("안녕 파이썬\n")
+f.close()                                       # 반드시 닫아주기
 
 
 # ===========================================================
-#  3. 예외 종류별로 처리하기
-#  - 형식) try:
-#              ...
-#          except 예외종류1:
-#              ...
-#          except 예외종류2:
-#              ...
-#          else:
-#              예외가 없을 때만 실행
-#          finally:
-#              예외 발생 여부와 관계없이 항상 실행
-#
-#  - 구체적으로 예외를 지정하는 것을 권장
-#  - 에러 메시지 확인하기: except 예외종류 as 변수명
+#  3. with문 사용하기
+#  - 형식) with open(경로, 모드, encoding="utf-8") as f:
+#              read/write
+#  - with 블록을 벗어나면 파일이 자동으로 닫힌다. (close() 불필요)
+#  - 실수로 close()를 빼먹는 것을 막아주므로 with문 사용을 권장
+# ===========================================================
+
+with open(FILE_PATH, "w", encoding="utf-8") as f:
+    f.write("hello python2\n")
+    f.write("안녕 파이썬2\n")
+
+
+# ===========================================================
+#  4. 파일 읽기
+#  - read()      : 전체를 하나의 ( 문자열 )로 읽기
+#  - readlines() : 한 줄씩 읽어 ( 리스트 )에 담기 (각 줄 끝에 \n 포함)
+#  - for문       : 파일 객체를 반복하며 한 줄씩 읽기 (가장 많이 쓰임)
+# ===========================================================
+
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    content = f.read()                  # 전체를 하나의 문자열로
+    print(content)
+
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    lines = f.readlines()               # 한 줄씩 읽어 리스트에 담음 (각 줄 끝에 \n 포함)
+    print(lines)
+
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    for line in f:                      # 파일 객체의 반복자 이용 (가장 많이 쓰임)
+        print(line.strip())             # 줄바꿈 제거
+
+
+# ===========================================================
+#  5. 쓰기 모드 비교
+#  - w 모드: 파일 없으면 새로 생성, 있으면 내용 삭제하고 새로 씀
+#  - a 모드: 파일 없으면 새로 생성, 있으면 기존 내용 뒤에 추가
+# ===========================================================
+
+# 실행 결과 예상해보기
+with open(FILE_PATH, "w", encoding="utf-8") as f:
+    f.write("첫 번째 줄\n")
+
+with open(FILE_PATH, "w", encoding="utf-8") as f:
+    f.write("두번째 줄\n")
+
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    print(f.read())
+
+with open(FILE_PATH, "a", encoding="utf-8") as f:
+    f.write("세번째 줄\n")
+
+with open(FILE_PATH, "r", encoding="utf-8") as f:
+    print(f.read())
+
+
+# ===========================================================
+#  6. 파일이 없을 때 예외 처리
+#  - r 모드로 없는 파일을 열면 FileNotFoundError 예외가 발생한다.
+#  - try-except로 예외 처리하기
 # ===========================================================
 
 try:
-    num = int(input("숫자 => "))        # 예외 발생 가능한 코드
-    result = 10 / num
-except ValueError as e:
-    print("숫자를 입력하세요:",e)
-except ZeroDivisionError as e:
-    print("0으로 나눌 수 없습니다:",e)
-else:
-    print("결과: ",result)
-finally:
-    print("완료")
-
-# ===========================================================
-#  4. 예외 직접 발생시키기
-#  - 형식) raise 예외종류("에러 메시지")
-#  - 프로그램에서 개발자가 직접 예외를 발생시킬 수 있다.
-#  - raise로 발생시킨 예외도 try-except로 처리할 수 있다.
-# ===========================================================
-
-def check_age(age):
-    try:
-        if age < 0:
-            raise ValueError("나이는 음수일 수 없습니다.")
-        print("나이 출력: ", age)
-    except ValueError as e:
-        print(e)
-        raise
-try:
-    check_age(-10)
-except ValueError as e:
-    print(e)
-
-# =========================================================
-#  🔥 실습 문제
-# =========================================================
-
-# 1️⃣ 사칙연산 계산기 만들기
-#  - 피연산자가 숫자가 아닌 경우: "숫자를 입력하세요." 예외 발생
-#  - 0으로 나눌 경우: "0으로 나눌 수 없습니다." 예외 발생
-#  - 그 외 연산자의 경우: "지원하지 않는 연산자입니다." 예외 발생
-
-def calc(a, op, b):
-        try:
-            a,b = int(a),int(b)
-        except ValueError:
-            raise ValueError("숫자를 입력하세요.")
-        if op =="+":
-            return a+b
-        elif op =="-":
-            return a-b
-        elif op =="*":
-            return a*b
-        elif op =="/":
-            if b==0:
-                raise ZeroDivisionError("0으로 나눌 수 없습니다.")
-            return a/b
-        else:
-            raise ValueError(f"지원하지 않는 연산자({op})입니다.")
-
-
-
-# 2️⃣ 계산기 함수 호출 시 예외 처리하기
-# [실행 결과]
-#  - 15
-#  - 에러: 0으로 나눌 수 없습니다.
-#  - 에러: 지원하지 않는 연산자(%)입니다.
-#  - 에러: 숫자를 입력하세요.
-
-for data in [("10", "+", "5"), ("10", "/", "0"), ("10", "%", "3"), ("ten", "+", "3")]:
-    try:
-        calc(*data)
-    except (ValueError, ZeroDivisionError) as e:
-        print("에러:",e)
+    with open(os.path.join(BASE_DIR, "hello.txt"), "r", encoding="utf-8") as f:
+        print(f.read())
+except FileNotFoundError as e:
+    print("파일을 찾을 수 없습니다.",e)
