@@ -29,7 +29,9 @@ def get_dog_image():
         if response.status_code != 200:
             print(f"실패: {response.status_code}")
             return
-
+        data = response.json()
+        print(data)
+        webbrowser.open(data[0]["url"])
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
     except requests.exceptions.RequestException as e:
@@ -37,9 +39,7 @@ def get_dog_image():
     except Exception as e:
         print(f"오류 발생: {e}")
 
-        data = response.json()
-        print(data)
-        webbrowser.open(data[0]["url"])
+        
 
 get_dog_image()
 
