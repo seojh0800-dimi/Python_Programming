@@ -99,7 +99,7 @@ def get_univ_list(country="Korea, Republic of"):
         for i, univ in enumerate(data[:5]):
             print(f"{i+1}. {univ['name']} ({univ['web_pages'][0]})\n")
 
-        print(data)
+        # print(data)
 
 
 
