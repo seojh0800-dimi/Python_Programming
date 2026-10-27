@@ -71,7 +71,7 @@ def get_cat_image():
     except Exception as e:
         print(f"오류 발생: {e}")
 
-get_cat_image()
+# get_cat_image()
 
 
 # ===========================================================
@@ -109,8 +109,8 @@ def get_univ_list(country="Korea, Republic of"):
         print(f"요청 중 오류 발생: {e}")
     except Exception as e:
         print(f"오류 발생: {e}")
-        
-# get_univ_list()
+
+get_univ_list()
 # get_univ_list("United States")
 
 
