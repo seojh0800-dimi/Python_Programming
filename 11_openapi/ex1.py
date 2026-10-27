@@ -37,6 +37,10 @@ def get_dog_image():
     except Exception as e:
         print(f"오류 발생: {e}")
 
+        data = response.json()
+        print(data)
+        webbrowser.open(data[0]["url"])
+
 get_dog_image()
 
 
