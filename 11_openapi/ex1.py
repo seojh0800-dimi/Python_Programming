@@ -111,7 +111,7 @@ def get_univ_list(country="Korea, Republic of"):
         print(f"오류 발생: {e}")
 
 get_univ_list()
-# get_univ_list("United States")
+get_univ_list("United States")
 
 
 # ===========================================================
@@ -128,6 +128,13 @@ def get_weather(lat, lon):
             "current": "temperature_2m",
         }
         response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code != 200:
+            print(f"실패: {response.status_code}")
+            return
+
+        data = response.json()
+        print(data)
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
