@@ -82,8 +82,16 @@ get_cat_image()
 def get_univ_list(country="Korea, Republic of"):
     try:
         url = "http://universities.hipolabs.com/search"
-        print(f"요청 URL: {url}")
-        return
+        params = {"country": country}
+        response = requests.get(url, params=params, timeout=10)
+
+        if response.status_code != 200:
+            print(f"실패: {response.status_code}")
+            return
+
+        data = response.json()
+        print(data)
+
 
 
     except requests.exceptions.Timeout as e:
