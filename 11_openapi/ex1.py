@@ -110,8 +110,8 @@ def get_univ_list(country="Korea, Republic of"):
     except Exception as e:
         print(f"오류 발생: {e}")
 
-get_univ_list()
-get_univ_list("United States")
+# get_univ_list()
+# get_univ_list("United States")
 
 
 # ===========================================================
@@ -143,4 +143,4 @@ def get_weather(lat, lon):
     except Exception as e:
         print(f"오류 발생: {e}")
 
-# get_weather(lat=37.3416467, lon=126.8310305)
+get_weather(lat=37.3416467, lon=126.8310305)
