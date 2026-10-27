@@ -97,7 +97,7 @@ def get_univ_list(country="Korea, Republic of"):
         # 앞의 대학 5개만 출력  -> 대학명 (홈페이지)
         print(f"대학 수: {len(data)}개")
         for i, univ in enumerate(data[:5]):
-            print(f"{i+1}. {univ['name']} ({univ['web_pages'][0]})")
+            print(f"{i+1}. {univ['name']} ({univ['web_pages'][0]})\n")
 
         print(data)
 
@@ -127,7 +127,7 @@ def get_weather(lat, lon):
             "longitude": lon,
             "current": "temperature_2m",
         }
-        
+        response = requests.get(url, params=params, timeout=10)
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
