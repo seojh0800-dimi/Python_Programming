@@ -54,6 +54,9 @@ def get_cat_image():
             print(f"실패: {response.status_code}")
             return
 
+        data = response.json()
+        print(data)
+        webbrowser.open(data[0]["url"])
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
     except requests.exceptions.RequestException as e:
@@ -72,7 +75,9 @@ def get_cat_image():
 def get_univ_list(country="Korea, Republic of"):
     try:
         url = "http://universities.hipolabs.com/search"
-        
+        print(f"요청 URL: {url}")
+        return
+
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
