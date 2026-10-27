@@ -90,6 +90,15 @@ def get_univ_list(country="Korea, Republic of"):
             return
 
         data = response.json()
+
+        # print(data)
+
+        # 대학 수: XX개
+        # 앞의 대학 5개만 출력  -> 대학명 (홈페이지)
+        print(f"대학 수: {len(data)}개")
+        for i, univ in enumerate(data[:5]):
+            print(f"{i+1}. {univ['name']} ({univ['web_pages'][0]})")
+
         print(data)
 
 
