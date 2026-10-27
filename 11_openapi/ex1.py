@@ -2,8 +2,8 @@
 
 # ===========================================================
 #  1. Open API란?
-#  - (  , Application Programming Interface ): 프로그램 간에 기능 또는 데이터를 주고받기 위한 인터페이스
-#  - (  ): 다른 프로그램에서 사용할 수 있도록 공개된 API
+#  - ( API , Application Programming Interface ): 프로그램 간에 기능 또는 데이터를 주고받기 위한 인터페이스
+#  - ( Open API ): 다른 프로그램에서 사용할 수 있도록 공개된 API
 #
 #  [Open API 사용 순서]
 #  1) Open API 제공 서비스 확인
@@ -24,7 +24,11 @@ import webbrowser
 def get_dog_image():
     try:
         url = "https://dog.ceo/api/breeds/image/random"
-        
+        response = requests.get(url, timeout=10)
+
+        if response.status_code != 200:
+            print(f"실패: {response.status_code}")
+            return
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
@@ -33,7 +37,7 @@ def get_dog_image():
     except Exception as e:
         print(f"오류 발생: {e}")
 
-# get_dog_image()
+get_dog_image()
 
 
 # ===========================================================
@@ -44,7 +48,11 @@ def get_dog_image():
 def get_cat_image():
     try:
         url = "https://api.thecatapi.com/v1/images/search"
-        
+        response = requests.get(url, timeout=10)
+
+        if response.status_code != 200:
+            print(f"실패: {response.status_code}")
+            return
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
