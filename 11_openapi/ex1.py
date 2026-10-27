@@ -32,6 +32,8 @@ def get_dog_image():
         data = response.json()
         print(data)
         webbrowser.open(data[0]["url"])
+
+
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
     except requests.exceptions.RequestException as e:
@@ -41,7 +43,7 @@ def get_dog_image():
 
         
 
-get_dog_image()
+# get_dog_image()
 
 
 # ===========================================================
