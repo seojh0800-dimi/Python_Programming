@@ -136,6 +136,14 @@ def get_weather(lat, lon):
         data = response.json()
         print(data)
 
+        # 측정일시 : 2026-10-28T10:00
+        # 기온 : 5.6도
+        # 풍속 : 10.2km/h
+        print(f"측정일시 : {data['current_weather']['time']}")
+        print(f"기온 : {data['current_weather']['temperature']}도")
+        print(f"풍속 : {data['current_weather']['windspeed']}km/h")
+
+        
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
     except requests.exceptions.RequestException as e:

@@ -14,18 +14,18 @@ from dotenv import load_dotenv
 # ===========================================================
 
 # .env 파일 로드
+load_dotenv()
 
+# 공공데이터포털 인증키 가져오기 (env 파일)
+SERVICE_KEY = os.getenv("SERVICE_KEY")
 
-# 공공데이터포털 인증키 가져오기
-
-
-# 기준일자, 기준시간 가져오기
+# 기준일자, 기준시간 가져오기 ( 가장 최신으로 가져오기(최신 없으면 이전 시간) )
 now = datetime.now()
 one_hour_age = now - timedelta(hours=1)
 
 base_date = now.strftime("%Y%m%d")
 base_time = one_hour_age.strftime("%H00")
-# print(f"기준일시: {base_date} {base_time}")
+print(f"기준일시: {base_date} {base_time}")
 
 
 # 날씨 코드
@@ -65,17 +65,25 @@ def get_weather_info(SERVICE_KEY, base_date=base_date, base_time=base_time):
         # pprint.pprint(data)
 
         # 응답코드 조회
-        result_cd = None
+        response_body = data.get("response", {})
+        header = response_body.get("header", {})
+        result_cd = header.get("resultCode")
+        result_msg = header.get("resultMsg")
 
         if result_cd != "00":
-            print(f"요청 실패 (Open API 결과 코드: {result_cd})")
+            print(f"요청 실패 (Open API 결과 코드: {result_cd}, {result_msg})")
             return
-        
+
         # 초단기실황조회 결과 출력
-        items = None
+        items = response_body.get("body", {}).get("items", {}).get("item", [])
+        if not items:
+            print("조회된 날씨 정보가 없습니다.")
+            return
 
         for item in items:
-            pass
+            category = item.get("category")
+            if category in WEATHER_CODE:
+                print(f"{WEATHER_CODE[category]}: {item.get('obsrValue')}")
 
     except requests.exceptions.Timeout as e:
         print(f"서버 응답시간 초과: {e}")
@@ -84,7 +92,7 @@ def get_weather_info(SERVICE_KEY, base_date=base_date, base_time=base_time):
     except Exception as e:
         print(f"오류 발생: {e}")
 
-# get_weather_info(api_key)
+get_weather_info(SERVICE_KEY)
 
 
 # ===========================================================
