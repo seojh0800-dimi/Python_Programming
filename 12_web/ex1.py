@@ -144,20 +144,20 @@ st.divider()
 #  - 값을 유지하려면 st.session_state에 저장
 # ===========================================================
 
-# st.header("6. 세션 상태")
+st.header("6. 세션 상태")
 
-# count = 0
+count = 0
 
-# if st.button("카운트 증가"):
-#     count += 1
+if st.button("카운트 증가"):
+    count += 1
 
-# st.write(f"버튼 클릭 횟수: {count}")
+st.write(f"버튼 클릭 횟수: {count}")
 
 
-# if "count" not in st.session_state:
-#     st.session_state.count = 0
+if "count" not in st.session_state:
+    st.session_state.count = 0
 
-# if st.button("카운트 증가"):
-#     st.session_state.count += 1
+if st.button("카운트 증가"):
+    st.session_state.count += 1
 
-# st.write(f"버튼 클릭 횟수: {st.session_state.count}")
+st.write(f"버튼 클릭 횟수: {st.session_state.count}")
