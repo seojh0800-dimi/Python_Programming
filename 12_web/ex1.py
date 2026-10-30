@@ -34,17 +34,17 @@ import streamlit as st
 
 st.title("Streamlit 기본 문법")
 
-# st.divider()    # 구분선
+st.divider()    # 구분선
 
-# st.header("1. 텍스트 출력")
-# st.subheader("서브헤더")
+st.header("1. 텍스트 출력")
+st.subheader("서브헤더")
 
-# st.text("텍스트")
-# st.markdown("마크다운, **굵게**, *기울임*")
-# st.write(1234, [1, 2, 3])
-# st.text("1234")
+st.text("텍스트")
+st.markdown("마크다운, **굵게**, *기울임*")
+st.write(1234, [1, 2, 3])
+st.text("1234")
 
-# st.divider()    # 구분선
+st.divider()    # 구분선
 
 
 # ===========================================================
