@@ -122,19 +122,19 @@ st.divider()
 #  - st.spinner()  : 작업 중 로딩 표시
 # ===========================================================
 
-# st.header("5. 상태 메시지")
+st.header("5. 상태 메시지")
 
-# st.success("성공 메시지")
-# st.info("안내 메시지")
-# st.warning("경고 메시지")
-# st.error("에러 메시지")
+st.success("성공 메시지")
+st.info("안내 메시지")
+st.warning("경고 메시지")
+st.error("에러 메시지")
 
-# if st.button("시간 걸리는 작업 실행"):
-#     with st.spinner("처리 중..."):
-#         time.sleep(2)
-#     st.success("완료!")
+if st.button("시간 걸리는 작업 실행"):
+    with st.spinner("처리 중..."):
+        time.sleep(2)
+    st.success("완료!")
 
-# st.divider()
+st.divider()
 
 
 # ===========================================================
