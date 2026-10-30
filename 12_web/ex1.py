@@ -98,22 +98,22 @@ st.divider()
 #  - st.button()      : 버튼 (클릭한 순간만 True)
 # ===========================================================
 
-# st.header("4. 입력 위젯")
+st.header("4. 입력 위젯")
 
-# name = st.text_input("이름을 입력하세요")
-# age = st.number_input("나이", min_value=1, max_value=100, value=17)
+name = st.text_input("이름을 입력하세요")
+age = st.number_input("나이", min_value=1, max_value=100, value=17)
 
-# grade = st.selectbox("학년", ["1학년", "2학년", "3학년"])
-# gender = st.radio("성별", ["남", "여"], horizontal=True)
-# agree = st.checkbox("동의합니다")
+grade = st.selectbox("학년", ["1학년", "2학년", "3학년"])
+gender = st.radio("성별", ["남", "여"], horizontal=True)
+agree = st.checkbox("동의합니다")
 
-# score = st.slider("점수", 0, 100, 50)
-# birth = st.date_input("날짜 선택")
+score = st.slider("점수", 0, 100, 50)
+birth = st.date_input("날짜 선택")
 
-# if st.button("확인"):
-#     st.write(f"{name} / {age}세 / {grade} / {gender} / {score}점 / 동의: {agree} / {birth}")
+if st.button("확인"):
+    st.write(f"{name} / {age}세 / {grade} / {gender} / {score}점 / 동의: {agree} / {birth}")
 
-# st.divider()
+st.divider()
 
 
 # ===========================================================
