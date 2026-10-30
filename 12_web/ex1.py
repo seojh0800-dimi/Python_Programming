@@ -75,14 +75,14 @@ st.divider()
 #  - st.bar_chart()  : 막대 그래프
 # ===========================================================
 
-# st.header("3. 차트")
+st.header("3. 차트")
 
-# chart_df = df.set_index("이름")
+chart_df = df.set_index("이름")
 
-# st.bar_chart(chart_df)
-# st.line_chart(chart_df)
+st.bar_chart(chart_df)
+st.line_chart(chart_df)
 
-# st.divider()
+st.divider()
 
 
 # ===========================================================
