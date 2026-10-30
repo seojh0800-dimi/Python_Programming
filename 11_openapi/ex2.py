@@ -3,6 +3,7 @@
 import os
 import pprint
 import requests
+import textwrap
 
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -25,7 +26,7 @@ one_hour_age = now - timedelta(hours=1)
 
 base_date = now.strftime("%Y%m%d")
 base_time = one_hour_age.strftime("%H00")
-print(f"기준일시: {base_date} {base_time}")
+# print(f"기준일시: {base_date} {base_time}")
 
 
 # 날씨 코드
@@ -62,7 +63,7 @@ def get_weather_info(SERVICE_KEY, base_date=base_date, base_time=base_time):
             return
         
         data = response.json()
-        # pprint.pprint(data)
+        pprint.pprint(data)
 
         # 응답코드 조회
         response_body = data.get("response", {})
@@ -92,7 +93,7 @@ def get_weather_info(SERVICE_KEY, base_date=base_date, base_time=base_time):
     except Exception as e:
         print(f"오류 발생: {e}")
 
-get_weather_info(SERVICE_KEY)
+# get_weather_info(SERVICE_KEY)
 
 
 # ===========================================================
@@ -131,6 +132,33 @@ def get_food_info(KEY, sc_code, schul_code, mlsv_ymd=base_date):
             return
 
         # 급식정보 출력
+        meal_info = data.get("mealServiceDietInfo", [])
+        rows = next(
+            (section.get("row", []) for section in meal_info if "row" in section),
+            [],
+        )
+        if not rows:
+            print("조회된 급식 정보가 없습니다.")
+            return
+
+        # 급식 정보 출력
+        # 기준일자: 
+        # 메뉴: 
+        # 열량:
+        for meal in rows:
+            meal_date = datetime.strptime(meal.get("MLSV_YMD", ""), "%Y%m%d")셔ㅛ
+            print(f"날짜: {meal_date:%Y년%m월%d일}")
+
+            if meal.get("CAL_INFO"):
+                print(f"열량: {meal['CAL_INFO']}")
+
+            print(f"급식: {meal.get('MMEAL_SC_NM', '정보 없음')}")
+
+            menu = meal.get("DDISH_NM", "").replace("<br/>", "\n")
+
+            print(f"메뉴\n{textwrap.indent(menu, ' | ')}")
+            
+            print()
 
     
     except requests.exceptions.Timeout as e:
@@ -142,6 +170,6 @@ def get_food_info(KEY, sc_code, schul_code, mlsv_ymd=base_date):
 
 
 # 나이스 인증키 가져오기
+NEIS_API_KEY = os.getenv("NEIS_API_KEY")
 
-
-# get_food_info(neis_api_key, sc_code="J10", schul_code="7530560")
+get_food_info(NEIS_API_KEY, sc_code="J10", schul_code="7530560")
