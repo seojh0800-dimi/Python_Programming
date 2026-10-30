@@ -148,7 +148,7 @@ st.header("6. 세션 상태")
 
 count = 0
 
-if st.button("카운트 증가"):
+if st.button("카운트 증가", key="count_without_session"):
     count += 1
 
 st.write(f"버튼 클릭 횟수: {count}")
@@ -157,7 +157,7 @@ st.write(f"버튼 클릭 횟수: {count}")
 if "count" not in st.session_state:
     st.session_state.count = 0
 
-if st.button("카운트 증가"):
+if st.button("카운트 증가", key="count_with_session"):
     st.session_state.count += 1
 
 st.write(f"버튼 클릭 횟수: {st.session_state.count}")
