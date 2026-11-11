@@ -4,3 +4,4 @@ auto-commit-push.py
 build/
 *.spec
 __pycache__/
+.vscode/
