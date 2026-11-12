@@ -76,11 +76,11 @@ print(data[:5])
 #  - 평가용 데이터는 학습에 절대 사용하지 않음
 # ===========================================================
 
-# # 5번째마다 평가용, 나머지는 학습용
-# train_data = [d for i, d in enumerate(data) if i % 5 != 4]
-# test_data = [d for i, d in enumerate(data) if i % 5 == 4]
+# 5번째마다 평가용, 나머지는 학습용
+train_data = [d for i, d in enumerate(data) if i % 5 != 4]
+test_data = [d for i, d in enumerate(data) if i % 5 == 4]
 
-# print(f"학습용 {len(train_data)}개 / 평가용 {len(test_data)}개")
+print(f"학습용 {len(train_data)}개 / 평가용 {len(test_data)}개")
 
 
 # ===========================================================
@@ -92,13 +92,13 @@ print(data[:5])
 #  - id2label : 분류할 범주가 2개(부정, 긍정)라는 것을 모델에 알려줌
 # ===========================================================
 
-# model_name = "monologg/koelectra-small-v3-discriminator"        # 허깅페이스 모델 이름 (한국어 KoELECTRA small)
+model_name = "monologg/koelectra-small-v3-discriminator"        # 허깅페이스 모델 이름 (한국어 KoELECTRA small)
 
-# tokenizer = AutoTokenizer.from_pretrained(model_name)           # 토크나이저 불러오기
-# model = AutoModelForSequenceClassification.from_pretrained(     # KoELECTRA 본체 + 긍정/부정 분류용 층
-#     model_name,
-#     id2label={0: "부정", 1: "긍정"},         # 분류개수와 출력이름 지정
-# )
+tokenizer = AutoTokenizer.from_pretrained(model_name)           # 토크나이저 불러오기
+model = AutoModelForSequenceClassification.from_pretrained(     # KoELECTRA 본체 + 긍정/부정 분류용 층
+    model_name,
+    id2label={0: "부정", 1: "긍정"},         # 분류개수와 출력이름 지정
+)
 
 
 # ===========================================================
@@ -108,19 +108,19 @@ print(data[:5])
 #  - 모델이 계산하는 데이터는 전부 텐서(Tensor)여야 함
 #  - 텐서 : 숫자를 담은 다차원 배열로 PyTorch가 계산하는 데이터의 기본 단위임
 # ===========================================================
-# def make_dataset(data):
-#     texts = [text for text, label in data]                  # 리뷰 문장만 모음
-#     labels = torch.tensor([label for text, label in data])  # 정답(0/1)만 모아 텐서로 변환
+def make_dataset(data):
+    texts = [text for text, label in data]                  # 리뷰 문장만 모음
+    labels = torch.tensor([label for text, label in data])  # 정답(0/1)만 모아 텐서로 변환
 
-#     # padding=True : 가장 긴 문장에 맞춰 짧은 문장을 채워서 길이를 같게 만듦
-#     # return_tensors="pt" : 결과를 PyTorch 텐서로 받음
-#     inputs = tokenizer(texts, padding=True, return_tensors="pt")    # 문장 -> 숫자
-#     return inputs, labels
+    # padding=True : 가장 긴 문장에 맞춰 짧은 문장을 채워서 길이를 같게 만듦
+    # return_tensors="pt" : 결과를 PyTorch 텐서로 받음
+    inputs = tokenizer(texts, padding=True, return_tensors="pt")    # 문장 -> 숫자
+    return inputs, labels
 
 
-# # 학습용, 평가용 데이터를 각각 숫자로 변환
-# train_inputs, train_labels = make_dataset(train_data)
-# test_inputs, test_labels = make_dataset(test_data)
+# 학습용, 평가용 데이터를 각각 숫자로 변환
+train_inputs, train_labels = make_dataset(train_data)
+test_inputs, test_labels = make_dataset(test_data)
 
 
 # ===========================================================
@@ -129,21 +129,21 @@ print(data[:5])
 #  - accuracy : 예측한 번호가 정답과 얼마나 맞는지 비율로 계산
 # ===========================================================
 
-# def predict(inputs):
-#     model.eval()                                    # 평가 모드
-#     with torch.no_grad():                           # 학습하지 않고 예측만 하기
-#         logits = model(**inputs).logits             # 문장 숫자를 모델에 넣고 분류 점수(logits)만 꺼내기
-#     return logits.argmax(dim=1)                     # 점수가 높은 쪽을 선택
+def predict(inputs):
+    model.eval()                                    # 평가 모드
+    with torch.no_grad():                           # 학습하지 않고 예측만 하기
+        logits = model(**inputs).logits             # 문장 숫자를 모델에 넣고 분류 점수(logits)만 꺼내기
+    return logits.argmax(dim=1)                     # 점수가 높은 쪽을 선택
 
 
-# def accuracy(inputs, labels):
-#     return (predict(inputs) == labels).float().mean().item()
+def accuracy(inputs, labels):
+    return (predict(inputs) == labels).float().mean().item()
 
 
-# print()
-# print("[학습 전]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
+print()
+print("[학습 전]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
 
 
 # ===========================================================
@@ -159,28 +159,28 @@ print(data[:5])
 #    (너무 크면 정답을 지나쳐 학습이 불안정하고, 너무 작으면 학습이 느림)
 # ===========================================================
 
-# # 옵티마이저 생성 : model.parameters() = 학습으로 고쳐질 모델의 모든 값, lr = 학습률
-# optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
+# 옵티마이저 생성 : model.parameters() = 학습으로 고쳐질 모델의 모든 값, lr = 학습률
+optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
 
-# print()
-# print("[학습]")
-# for epoch in range(1, 31):                          # 30번 반복
-#     model.train()                                   # 학습 모드
-#     # 정답(labels)를 함께 넣으면 모델이 예측 점수(logits)와 함께 오차(loss)도 계산해줌
-#     outputs = model(**train_inputs, labels=train_labels)
-#     loss = outputs.loss                             # 오차 (텐서)
+print()
+print("[학습]")
+for epoch in range(1, 31):                          # 30번 반복
+    model.train()                                   # 학습 모드
+    # 정답(labels)를 함께 넣으면 모델이 예측 점수(logits)와 함께 오차(loss)도 계산해줌
+    outputs = model(**train_inputs, labels=train_labels)
+    loss = outputs.loss                             # 오차 (텐서)
 
-#     optimizer.zero_grad()                           # 이전 기울기 지우기
-#     loss.backward()                                 # 기울기 계산
-#     optimizer.step()                                # 값 고치기
+    optimizer.zero_grad()                           # 이전 기울기 지우기
+    loss.backward()                                 # 기울기 계산
+    optimizer.step()                                # 값 고치기
 
-#     print(f"epoch {epoch:2d} | loss = {loss.item():.3f}")
-#     # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
+    print(f"epoch {epoch:2d} | loss = {loss.item():.3f}")
+    # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
 
-# print()
-# print("[학습 후]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")    # 공부한 문장으로 본 시험
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")      # 처음 보는 문장으로 본 시험
+print()
+print("[학습 후]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")    # 공부한 문장으로 본 시험
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")      # 처음 보는 문장으로 본 시험
 
 
 # ===========================================================
@@ -192,7 +192,7 @@ print(data[:5])
 #  - 토크나이저 : 모델이 학습한 숫자 규칙을 저장
 # ===========================================================
 
-# save_dir = os.path.join(BASE_DIR, "model", "my_sentiment_model")
+save_dir = os.path.join(BASE_DIR, "model", "my_sentiment_model")
 
-# model.save_pretrained(save_dir)         # 학습한 모델 저장 (고쳐진 가중치 + 설정)
-# tokenizer.save_pretrained(save_dir)     # 토크나이저 저장 (모델과 같은 폴더에)
+model.save_pretrained(save_dir)         # 학습한 모델 저장 (고쳐진 가중치 + 설정)
+tokenizer.save_pretrained(save_dir)     # 토크나이저 저장 (모델과 같은 폴더에)
