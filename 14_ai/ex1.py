@@ -115,7 +115,7 @@ pipe = pipeline(
 #     {"role": "user", "content": "튜플이랑은 뭐가 달라?"},                      # 앞 대화를 이어서 질문
 # ]
 
-result = pipe(messages, max_new_tokens=100)
+# result = pipe(messages, max_new_tokens=100)
 
 print(result[0]["generated_text"][-1]["content"])   # 마지막 메시지 = 모델의 답변
 
