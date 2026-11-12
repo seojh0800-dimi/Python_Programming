@@ -42,24 +42,25 @@ from transformers import pipeline
 
 load_dotenv()
 token = os.getenv("HF_TOKEN")
-print(token)
+# print(token)
 
 # print("1. 파이프라인 : 감정 분석")
 
-# classifier = pipeline(
-#     "text-classification",
-#     model="distilbert/distilbert-base-uncased-finetuned-sst-2-english",
-#     token=token
-# )
+classifier = pipeline(
+    "text-classification",
+    model="distilbert/distilbert-base-uncased-finetuned-sst-2-english",
+    token=token
+)
 
-# sentences = [
-#     "I love this movie. It was fantastic!",
-#     "The food was cold and the service was terrible.",
-# ]
+sentences = [
+    "I love this movie. It was fantastic!",
+    "The food was cold and the service was terrible.",
+]
 
-# for sentence in sentences:
-#     result = classifier(sentence)[0]
-#     print(f"{result['label']} ({result['score']:.2f}) : {sentence}")
+for sentence in sentences:
+    result = classifier(sentence)[0]
+    print(result)
+    print(f"{result['label']} ({result['score']:.2f}) : {sentence}")
 
 
 # print()
