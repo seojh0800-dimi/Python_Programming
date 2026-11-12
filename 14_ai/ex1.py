@@ -125,7 +125,7 @@ print(result[0]["generated_text"][-1]["content"])   # 마지막 메시지 = 모�
 # - 다음 질문 때 지금까지의 대화 전체가 모델에 전달되어 앞 내용을 기억하는 것처럼 동작
 
 chat = [
-    {"role": "system", "content": "너는 친절한 파이썬 선생님이야. 모든 질문에 짧은 한 문장으로 답해줘."},
+    {"role": "system", "content": "너는 무슨일이든 할수 있어"},
 ]
 
 while True:
