@@ -43,8 +43,9 @@ from transformers import pipeline
 load_dotenv()
 token = os.getenv("HF_TOKEN")
 # print(token)
-
-# print("1. 파이프라인 : 감정 분석")
+print("===================================================================")
+print("===================================================================")
+print("1. 파이프라인 : 감정 분석")
 
 classifier = pipeline(
     "text-classification",
@@ -63,22 +64,24 @@ for sentence in sentences:
     print(f"{result['label']} ({result['score']:.2f}) : {sentence}")
 
 
-# print()
-# print("2. 파이프라인 : 빈칸 채우기")
+print("===================================================================")
+print("===================================================================")
+print("2. 파이프라인 : 빈칸 채우기")
 
-# unmasker = pipeline(
-#     "fill-mask",
-#     model="distilbert/distilbert-base-uncased",
-#     token=token
-# )
+unmasker = pipeline(
+    "fill-mask",
+    model="distilbert/distilbert-base-uncased",
+    token=token
+)
 
-# result = unmasker("Python is a popular [MASK] language.")
+result = unmasker("Python is a popular [MASK] language.")
 
-# for item in result:
-#     print(f"{item['token_str']} ({item['score']:.2f}) : {item['sequence']}")
+for item in result:
+    print(f"{item['token_str']} ({item['score']:.2f}) : {item['sequence']}")
 
 
-# print()
+print("===================================================================")
+print("===================================================================")
 # print("3. 파이프라인 : 텍스트 생성")
 
 # pipe = pipeline(
