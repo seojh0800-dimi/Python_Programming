@@ -96,24 +96,24 @@ pipe = pipeline(
 # - user : 모델에게 하는 질문이나 요청
 # - assistant : 모델이 한 답변
 
-messages = [
-    {"role": "system", "content": "너는 친절한 파이썬 선생님이야. 짧은 한 문장으로 답해줘."},
-    {"role": "user", "content": "리스트와 튜플의 차이가 뭐야?"}
-]
+# messages = [
+#     {"role": "system", "content": "너는 친절한 파이썬 선생님이야. 짧은 한 문장으로 답해줘."},
+#     {"role": "user", "content": "리스트와 튜플의 차이가 뭐야?"}
+# ]
 
-result = pipe(messages, max_new_tokens=100)
+# result = pipe(messages, max_new_tokens=100)
 
-print(result[0]["generated_text"][-1]["content"])   # 마지막 메시지 = 모델의 답변
+# print(result[0]["generated_text"][-1]["content"])   # 마지막 메시지 = 모델의 답변
 
 
 # 모델은 이전 대화를 기억하지 못함
 # 이어서 대화하려면 지난 user와 assistant 메시지를 매번 목록에 다시 넣어 보내기
-messages = [
-    {"role": "system", "content": "너는 친절한 파이썬 선생님이야. 짧은 한 문장으로 답해줘."},
-    {"role": "user", "content": "리스트가 뭐야?"},
-    {"role": "assistant", "content": "여러 값을 순서대로 담는 자료형이에요."},  # 이전 답변
-    {"role": "user", "content": "튜플이랑은 뭐가 달라?"},                      # 앞 대화를 이어서 질문
-]
+# messages = [
+#     {"role": "system", "content": "너는 친절한 파이썬 선생님이야. 짧은 한 문장으로 답해줘."},
+#     {"role": "user", "content": "리스트가 뭐야?"},
+#     {"role": "assistant", "content": "여러 값을 순서대로 담는 자료형이에요."},  # 이전 답변
+#     {"role": "user", "content": "튜플이랑은 뭐가 달라?"},                      # 앞 대화를 이어서 질문
+# ]
 
 result = pipe(messages, max_new_tokens=100)
 
