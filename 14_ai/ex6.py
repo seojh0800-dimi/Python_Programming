@@ -41,44 +41,44 @@ from transformers import pipeline
 load_dotenv()
 token = os.getenv("HF_TOKEN")
 
-# print("1. 파이프라인 : 이미지 분류")
+print("1. 파이프라인 : 이미지 분류")
 
-# classifier = pipeline(
-#     "image-classification",
-#     model="google/vit-base-patch16-224",
-#     token=token
-# )
+classifier = pipeline(
+    "image-classification",
+    model="google/vit-base-patch16-224",
+    token=token
+)
 
-# results = classifier("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/hub/parrots.png")
-# for result in results:
-#     print(f"{result['label']} ({result['score']:.2f})")
-# print()
-
-
-# # 강아지 사진 분류하기
-# BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# image = Image.open(os.path.join(BASE_DIR, "images", "dog.jpg"))   # 분류하고 싶은 이미지 파일 경로
-# results = classifier(image, top_k=3)    # 확률이 높은 3개만 보기
-
-# for result in results:
-#     print(f"{result['label']} ({result['score']:.2f})")
-# print()
+results = classifier("https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/hub/parrots.png")
+for result in results:
+    print(f"{result['label']} ({result['score']:.2f})")
+print()
 
 
-# # 고양이 사진 분류하기
-# image = Image.open(os.path.join(BASE_DIR, "images", "cat.jpg"))
-# results = classifier(image, top_k=3)
+# 강아지 사진 분류하기
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# for result in results:
-#     print(f"{result['label']} ({result['score']:.2f})")
-# print()
+image = Image.open(os.path.join(BASE_DIR, "images", "dog.jpg"))   # 분류하고 싶은 이미지 파일 경로
+results = classifier(image, top_k=3)    # 확률이 높은 3개만 보기
+
+for result in results:
+    print(f"{result['label']} ({result['score']:.2f})")
+print()
 
 
-# # 뽀로로, 크롱, 포비 사진은?
-# image = Image.open(os.path.join(BASE_DIR, "images", "pororo.jpg"))
-# results = classifier(image, top_k=3)    # 확률이 높은 3개만 보기
+# 고양이 사진 분류하기
+image = Image.open(os.path.join(BASE_DIR, "images", "cat.jpg"))
+results = classifier(image, top_k=3)
 
-# for result in results:
-#     print(f"{result['label']} ({result['score']:.2f})")
-# print()
+for result in results:
+    print(f"{result['label']} ({result['score']:.2f})")
+print()
+
+
+# 뽀로로, 크롱, 포비 사진은?
+image = Image.open(os.path.join(BASE_DIR, "images", "pororo.jpg"))
+results = classifier(image, top_k=3)    # 확률이 높은 3개만 보기
+
+for result in results:
+    print(f"{result['label']} ({result['score']:.2f})")
+print()

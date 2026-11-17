@@ -3,17 +3,18 @@
 import os
 import json
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import PreTrainedTokenizerFast, AutoModelForCausalLM
+from peft import LoraConfig, get_peft_model
 
 # ===========================================================
 #  1. 패키지 목록
 #  - torch : PyTorch 딥러닝 라이브러리
-#  - AutoTokenizer : 문장을 모델이 읽을 수 있는 숫자로 바꾸는 도구
+#  - PreTrainedTokenizerFast : 문장을 모델이 읽을 수 있는 숫자로 바꾸는 도구
 #  - AutoModelForCausalLM : 앞 글자들을 보고 다음 글자를 이어서 만들어내는 텍스트 생성 모델
-#  - 예시) "디미고는" → [AutoTokenizer] → 숫자 → [AutoModelForCausalLM] → "경기도 안산시에 있어요."
+#  - 예시) "디미고는" → [PreTrainedTokenizerFast] → 숫자 → [AutoModelForCausalLM] → "경기도 안산시에 있어요."
 #
 #  [설치]
-#  - pip install transformers torch
+#  - pip install -U "transformers>=4.51.0" peft torch
 # ===========================================================
 
 # ===========================================================
@@ -63,16 +64,37 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #  4. 기존 모델 불러오기
 #  - from_pretrained(모델이름) : 허깅페이스에서 이미 학습된 모델을 내려받아 불러옴
 #    (최초 1회 다운로드, 이후에는 내 PC에 저장된 캐시 사용)
-#  - AutoTokenizer : 문장을 모델이 읽을 수 있는 숫자로 바꾸는 도구
+#  - PreTrainedTokenizerFast : 문장을 모델이 읽을 수 있는 숫자로 바꾸는 도구
 #  - AutoModelForCausalLM : 다음 글자를 이어서 만들어내는 텍스트 생성 모델
 #
 #  - dtype=torch.float32 : 학습할 때는 숫자를 정밀하게(32비트) 다뤄야 함
 # ===========================================================
 
-# model_name = "Qwen/Qwen2.5-0.5B-Instruct"
+model_name = "Qwen/Qwen3-1.7B-Base"
 
-# tokenizer = AutoTokenizer.from_pretrained(model_name)
-# model = AutoModelForCausalLM.from_pretrained(model_name, dtype=torch.float32)
+tokenizer = PreTrainedTokenizerFast.from_pretrained(model_name)
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model_dtype = torch.float16 if device.type == "cuda" else torch.float32
+model = AutoModelForCausalLM.from_pretrained(model_name, dtype=model_dtype)
+model.to(device)
+model.config.use_cache = False
+model.gradient_checkpointing_enable()
+model.enable_input_require_grads()
+
+model = get_peft_model(
+    model,
+    LoraConfig(
+        task_type="CAUSAL_LM",
+        r=8,
+        lora_alpha=16,
+        lora_dropout=0.1,
+        target_modules=["q_proj", "k_proj", "v_proj", "o_proj"],
+    ),
+)
+model.print_trainable_parameters()
 
 
 # ===========================================================
@@ -86,25 +108,26 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #  - 채워 넣은 칸(padding)은 정답이 아니므로 오차 계산에서 제외
 # ===========================================================
 
-# def make_dataset(sentences):
-#     texts = [sentence + tokenizer.eos_token for sentence in sentences]      # 문장 끝에 종료 토큰 붙이기
+def make_dataset(sentences):
+    texts = [sentence + tokenizer.eos_token for sentence in sentences]      # 문장 끝에 종료 토큰 붙이기
 
-#     # return_tensors="pt" : 결과를 PyTorch 텐서로 받음
-#     inputs = tokenizer(texts, padding=True, return_tensors="pt")            # 문장 -> 숫자
+    # return_tensors="pt" : 결과를 PyTorch 텐서로 받음
+    inputs = tokenizer(texts, padding=True, return_tensors="pt")            # 문장 -> 숫자
+    inputs = {name: tensor.to(device) for name, tensor in inputs.items()}
 
-#     # inputs["input_ids"] : 모델에 넣을 토큰값
-#     # inputs["attention_mask"] : 실제 토큰과 패딩의 위치 구분 (패딩은 0으로 표시)
-#     labels = inputs["input_ids"].clone()                                    # 텐서 복사 (원본 유지)
-#     labels[inputs["attention_mask"] == 0] = -100                            # 패딩으로 채워 넣은 칸은 오차 계산 제외
-#     return inputs, labels
+    # inputs["input_ids"] : 모델에 넣을 토큰값
+    # inputs["attention_mask"] : 실제 토큰과 패딩의 위치 구분 (패딩은 0으로 표시)
+    labels = inputs["input_ids"].clone()                                    # 텐서 복사 (원본 유지)
+    labels[inputs["attention_mask"] == 0] = -100                            # 패딩으로 채워 넣은 칸은 오차 계산 제외
+    return inputs, labels
 
 
-# # 학습용, 평가용 데이터를 각각 숫자로 변환
-# train_inputs, train_labels = make_dataset(train_sentences)
-# test_inputs, test_labels = make_dataset(test_sentences)
+# 학습용, 평가용 데이터를 각각 숫자로 변환
+train_inputs, train_labels = make_dataset(train_sentences)
+test_inputs, test_labels = make_dataset(test_sentences)
 
-# # 한 번에 처리할 문장 수 (한꺼번에 처리하면 메모리를 많이 쓰므로 나눠서 처리)
-# batch_size = 10
+# 한 번에 처리할 문장 수 (VRAM 사용량을 줄이기 위해 작게 설정)
+batch_size = 1
 
 
 # ===========================================================
@@ -114,56 +137,59 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #    (예: 디미고는 -> 경기도 / 디미고는 경기도 -> 안산시에 / ...)
 #
 #  - generate : 입력한 문장 뒤에 이어질 글자를 모델이 만들어냄
-#  - do_sample=False : 매번 가장 확률이 높은 글자만 골라서 같은 입력에는 같은 결과가 나오게 함
+#  - 샘플링을 사용해 매번 같은 입력에도 자연스러운 문장 변화를 줌
 #  - max_new_tokens=40 : 최대 40토큰까지만 만들기
 # ===========================================================
 
-# def accuracy(inputs, labels):
-#     model.eval()                                                            # 평가 모드
-#     correct, total = 0, 0
-#     with torch.no_grad():                                                   # 학습하지 않고 예측만 하기
-#         for i in range(0, len(labels), batch_size):
-#             logits = model(
-#                 input_ids=inputs["input_ids"][i:i + batch_size],
-#                 attention_mask=inputs["attention_mask"][i:i + batch_size],
-#             ).logits                                                        # 위치마다 다음 토큰의 분류 점수
-#             predicted = logits[:, :-1].argmax(dim=-1)                       # 각 위치에서 예측한 다음 토큰
-#             answer = labels[i:i + batch_size][:, 1:]                        # 실제 다음 토큰 (한 칸씩 밀어서 비교)
-#             mask = answer != -100                                           # 패딩 칸은 제외
-#             correct += (predicted[mask] == answer[mask]).sum().item()
-#             total += mask.sum().item()
-#     return correct / total
+def accuracy(inputs, labels):
+    model.eval()                                                            # 평가 모드
+    correct, total = 0, 0
+    with torch.no_grad():                                                   # 학습하지 않고 예측만 하기
+        for i in range(0, len(labels), batch_size):
+            logits = model(
+                input_ids=inputs["input_ids"][i:i + batch_size],
+                attention_mask=inputs["attention_mask"][i:i + batch_size],
+            ).logits                                                        # 위치마다 다음 토큰의 분류 점수
+            predicted = logits[:, :-1].argmax(dim=-1)                       # 각 위치에서 예측한 다음 토큰
+            answer = labels[i:i + batch_size][:, 1:]                        # 실제 다음 토큰 (한 칸씩 밀어서 비교)
+            mask = answer != -100                                           # 패딩 칸은 제외
+            correct += (predicted[mask] == answer[mask]).sum().item()
+            total += mask.sum().item()
+    return correct / total
 
 
-# def generate(prompt):
-#     model.eval()                                                        # 평가 모드
-#     prompt_inputs = tokenizer(prompt, return_tensors="pt")              # 입력 문장을 숫자 텐서로 변환
-#     with torch.no_grad():                                               # 학습하지 않기
-#         # 디미고는 경기도 -> 디미고는 경기도 안산 -> 디미고는 경기도 안산에 -> 디미고는 경기도 안산에 있습니다.
-#         output = model.generate(                                        # 입력 뒤에 이어지는 토큰 생성
-#             **prompt_inputs,
-#             max_new_tokens=40,                                          # 새로 생성할 토큰 수 제한
-#             do_sample=False,
-#             pad_token_id=tokenizer.pad_token_id,
-#         )
-#     return tokenizer.decode(output[0], skip_special_tokens=True)
+def generate(prompt):
+    model.eval()                                                        # 평가 모드
+    prompt_inputs = tokenizer(prompt, return_tensors="pt").to(device)   # 입력 문장을 숫자 텐서로 변환
+    with torch.no_grad():                                               # 학습하지 않기
+        # 디미고는 경기도 -> 디미고는 경기도 안산 -> 디미고는 경기도 안산에 -> 디미고는 경기도 안산에 있습니다.
+        output = model.generate(                                        # 입력 뒤에 이어지는 토큰 생성
+            **prompt_inputs,
+            max_new_tokens=40,                                          # 새로 생성할 토큰 수 제한
+            do_sample=True,
+            temperature=0.7,
+            top_p=0.9,
+            repetition_penalty=1.1,
+            pad_token_id=tokenizer.pad_token_id,
+        )
+    return tokenizer.decode(output[0], skip_special_tokens=True)
 
 
-# # 평가용 문장의 앞부분(두 단어)만 주고 뒷부분을 만들게 하기 (학습에 쓰지 않은 문장)
-# prompts = [" ".join(sentence.split()[:2]) for sentence in test_sentences]
+# 평가용 문장의 앞부분(두 단어)만 주고 뒷부분을 만들게 하기 (학습에 쓰지 않은 문장)
+prompts = [" ".join(sentence.split()[:2]) for sentence in test_sentences]
 
 
-# def show_generated():
-#     for prompt, sentence in zip(prompts, test_sentences):
-#         print(f"{prompt} -> {generate(prompt)}")
-#         print(f"    (원래 문장) {sentence}")
+def show_generated():
+    for prompt, sentence in zip(prompts, test_sentences):
+        print(f"{prompt} -> {generate(prompt)}")
+        print(f"    (원래 문장) {sentence}")
 
 
-# print()
-# print("[학습 전]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
-# show_generated()
+print()
+print("[학습 전]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
+show_generated()
 
 
 # ===========================================================
@@ -173,7 +199,7 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #    1) 예측 : 모델이 앞 글자들을 보고 다음 글자를 예측
 #    2) 오차 : 예측과 실제 다음 글자가 얼마나 다른지 계산 (loss, 작을수록 좋음)
 #    3) 수정 : 오차가 줄어드는 방향으로 모델의 값을 조금 고침
-#  - batch : 데이터를 작게 나눈 묶음. 한 묶음씩 학습 (여기서는 10문장씩)
+#  - batch : 데이터를 작게 나눈 묶음. 한 묶음씩 학습 (여기서는 1문장씩)
 #  - epoch : 학습 데이터 전체를 한 번 학습하는 것 (여기서는 10번 반복)
 #  - 옵티마이저(optimizer) : 모델의 값을 고쳐주는 도구 (AdamW)
 #  - lr(learning rate, 학습률) : 한 번에 고치는 크기
@@ -181,46 +207,46 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #  - 학습은 학습용 데이터로만 하고, 평가용 데이터는 정확도 확인에만 사용
 # ===========================================================
 
-# # 단어 사전(embedding) 가중치는 고정하고 나머지만 학습
-# model.get_input_embeddings().weight.requires_grad = False
+# LoRA 어댑터만 학습하고 원래 모델의 가중치는 고정
+trainable = [p for p in model.parameters() if p.requires_grad]
 
-# # 학습할 모델의 가중치 준비
-# trainable = [p for p in model.parameters() if p.requires_grad]
+# 옵티마이저 생성 : 학습으로 고쳐질 모델의 값만 전달, lr = 학습률
+optimizer = torch.optim.AdamW(trainable, lr=2e-4)
+scaler = torch.amp.GradScaler("cuda", enabled=device.type == "cuda")
 
-# # 옵티마이저 생성 : 학습으로 고쳐질 모델의 값만 전달, lr = 학습률
-# optimizer = torch.optim.AdamW(trainable, lr=2e-5)
+print()
+print("[학습]")
+for epoch in range(1, 11):
+    model.train()                                   # 학습 모드
+    order = torch.randperm(len(train_labels), device=device)  # 순서 섞기
+    total_loss = 0
 
-# print()
-# print("[학습]")
-# for epoch in range(1, 11):
-#     model.train()                                   # 학습 모드
-#     order = torch.randperm(len(train_labels))       # 순서 섞기
-#     total_loss = 0
+    for i in range(0, len(order), batch_size):
+        batch = order[i:i + batch_size]
+        # 정답(labels)를 함께 넣으면 모델이 오차(loss)도 계산해줌
+        outputs = model(
+            input_ids=train_inputs["input_ids"][batch],
+            attention_mask=train_inputs["attention_mask"][batch],
+            labels=train_labels[batch],
+        )
+        loss = outputs.loss                         # 오차 (텐서)
 
-#     for i in range(0, len(order), batch_size):
-#         batch = order[i:i + batch_size]
-#         # 정답(labels)를 함께 넣으면 모델이 오차(loss)도 계산해줌
-#         outputs = model(
-#             input_ids=train_inputs["input_ids"][batch],
-#             attention_mask=train_inputs["attention_mask"][batch],
-#             labels=train_labels[batch],
-#         )
-#         loss = outputs.loss                         # 오차 (텐서)
+        optimizer.zero_grad(set_to_none=True)       # 이전 기울기 지우기
+        scaler.scale(loss).backward()               # 기울기 계산
+        scaler.step(optimizer)                      # 값 고치기
+        scaler.update()
 
-#         optimizer.zero_grad()                       # 이전 기울기 지우기
-#         loss.backward()                             # 기울기 계산
-#         optimizer.step()                            # 값 고치기
+        total_loss += loss.item()
 
-#         total_loss += loss.item()
+    steps = (len(order) + batch_size - 1) // batch_size
+    print(f"epoch {epoch:2d} | loss = {total_loss / steps:.3f}")
+    # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
 
-#     print(f"epoch {epoch:2d} | loss = {total_loss / (len(order) / batch_size):.3f}")
-#     # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
-
-# print()
-# print("[학습 후]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")      # 공부한 문장으로 본 시험
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")        # 처음 보는 문장으로 본 시험
-# show_generated()
+print()
+print("[학습 후]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")      # 공부한 문장으로 본 시험
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")        # 처음 보는 문장으로 본 시험
+show_generated()
 
 
 # ===========================================================
@@ -228,11 +254,11 @@ print(f"학습용 {len(train_sentences)}개 / 평가용 {len(test_sentences)}개
 #  - 파인 튜닝한 모델은 지금 메모리에만 있어서 프로그램을 끄면 사라짐
 #  - 파일로 저장해두면 다시 학습하지 않고 불러서 사용할 수 있음
 #  - 모델과 토크나이저 두개 파일을 저장
-#  - 모델 : 학습으로 고쳐진 값(가중치) + 설정
+#  - 모델 : 학습한 LoRA 어댑터 + 설정 (원본 Qwen3 모델이 별도로 필요)
 #  - 토크나이저 : 모델이 학습한 숫자 규칙을 저장
 # ===========================================================
 
-# save_dir = os.path.join(BASE_DIR, "model", "my_text_generation_model")
+save_dir = os.path.join(BASE_DIR, "model", "my_qwen3_lora_model")
 
-# model.save_pretrained(save_dir)         # 학습한 모델 저장 (고쳐진 가중치 + 설정)
-# tokenizer.save_pretrained(save_dir)     # 토크나이저 저장 (모델과 같은 폴더에)
+model.save_pretrained(save_dir)         # 학습한 모델 저장 (고쳐진 가중치 + 설정)
+tokenizer.save_pretrained(save_dir)     # 토크나이저 저장 (모델과 같은 폴더에)
