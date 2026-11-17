@@ -15,3 +15,4 @@ def get_rest_api_data() -> list[dict[str, object]]:
         }
         for person in data
     ]
+ 
