@@ -59,6 +59,24 @@ streamlit run app.py
 
 AI 실습에는 `transformers`, `torch`가 사용되며, 이미지 예제에는 `pillow`와 `torchvision`도 필요할 수 있습니다. 모델을 처음 불러올 때 다운로드가 발생할 수 있고, 파인 튜닝에는 추가 시간과 메모리·연산 자원이 필요합니다. `data`, `dataset`, `images` 폴더에는 실습용 데이터와 이미지가 들어 있습니다. 학습을 먼저 실행해야 사용할 수 있는 예제는 해당 모델 파일이 생성된 뒤 실행하세요.
 
+#### 텍스트 생성 파인 튜닝 (`14_ai/ex4.py`)
+
+`ex4.py`는 `Qwen/Qwen3-1.7B-Base`를 불러와 LoRA 어댑터를 학습합니다. Windows에서 NVIDIA GPU를 사용하려면 CUDA 지원 PyTorch와 `transformers`, `peft`를 설치하세요. 아래 명령은 RTX 4060에서 확인한 CUDA 12.8용 PyTorch 설치 예시입니다. VS Code에서 선택한 Python 환경의 터미널에서 실행해야 합니다.
+
+```powershell
+python -m pip install --upgrade --force-reinstall "torch==2.11.0+cu128" --index-url https://download.pytorch.org/whl/cu128
+python -m pip install --upgrade "transformers>=4.51.0" peft
+```
+
+CUDA가 인식되는지 확인한 다음 저장소 루트에서 학습 스크립트를 실행합니다.
+
+```powershell
+python -c "import torch; print(torch.__version__); print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CUDA unavailable')"
+python .\14_ai\ex4.py
+```
+
+첫 실행 시 모델 다운로드가 필요합니다. 학습된 LoRA 어댑터는 `14_ai/model/my_qwen3_lora_model`에 저장됩니다. 이 예제는 약 50개의 문장으로 파인 튜닝하는 학습 실습이며, 일반적인 대화형 모델처럼 답변하도록 보장하지 않습니다. GPU 사용률은 작업 관리자에서 3D 그래프 대신 CUDA/Compute 그래프를 선택하거나 `nvidia-smi`로 확인하세요.
+
 ## API 키와 보안
 
 API 키나 Hugging Face 토큰이 필요한 예제는 각 스크립트가 읽는 환경 변수 이름을 확인하고 로컬 환경에 설정하세요. 토큰 값은 소스 코드나 공개 저장소에 입력하거나 공유하지 마세요.
