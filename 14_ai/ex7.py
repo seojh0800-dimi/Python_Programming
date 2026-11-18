@@ -99,14 +99,14 @@ print(f"학습용 {len(train_images)}장 / 평가용 {len(test_images)}장")
 #  - ignore_mismatched_sizes=True : 기존 모델은 1000종류용이므로 마지막 층을 3종류용으로 새로 만듦
 # ===========================================================
 
-# model_name = "google/vit-base-patch16-224"
+model_name = "google/vit-base-patch16-224"
 
-# processor = AutoImageProcessor.from_pretrained(model_name)
-# model = AutoModelForImageClassification.from_pretrained(
-#     model_name,
-#     id2label={0: "pororo", 1: "crong", 2: "poby"},
-#     ignore_mismatched_sizes=True,
-# )
+processor = AutoImageProcessor.from_pretrained(model_name)
+model = AutoModelForImageClassification.from_pretrained(
+    model_name,
+    id2label={0: "pororo", 1: "crong", 2: "poby"},
+    ignore_mismatched_sizes=True,
+)
 
 
 # ===========================================================
@@ -117,10 +117,10 @@ print(f"학습용 {len(train_images)}장 / 평가용 {len(test_images)}장")
 #    · 픽셀 값(0~255)을 모델이 학습한 범위(-1~1)로 맞춤
 # ===========================================================
 
-# # 이미지 -> 숫자 (224x224 크기로 변환)
-# # return_tensors="pt" : 결과를 PyTorch 텐서로 받음
-# train_inputs = processor(train_images, return_tensors="pt")
-# test_inputs = processor(test_images, return_tensors="pt")
+# 이미지 -> 숫자 (224x224 크기로 변환)
+# return_tensors="pt" : 결과를 PyTorch 텐서로 받음
+train_inputs = processor(train_images, return_tensors="pt")
+test_inputs = processor(test_images, return_tensors="pt")
 
 
 # ===========================================================
@@ -129,21 +129,21 @@ print(f"학습용 {len(train_images)}장 / 평가용 {len(test_images)}장")
 #  - accuracy : 예측한 번호가 정답과 얼마나 맞는지 비율로 계산
 # ===========================================================
 
-# def predict(inputs):
-#     model.eval()                                            # 평가 모드
-#     with torch.no_grad():                                   # 학습하지 않고 예측만 하기
-#         logits = model(pixel_values=inputs["pixel_values"]).logits      # 모든 사진 숫자를 한 번에 모델에 넣고 분류 점수(logits)만 꺼내기
-#     return logits.argmax(dim=1)                             # 점수가 높은 쪽을 선택
+def predict(inputs):
+    model.eval()                                            # 평가 모드
+    with torch.no_grad():                                   # 학습하지 않고 예측만 하기
+        logits = model(pixel_values=inputs["pixel_values"]).logits      # 모든 사진 숫자를 한 번에 모델에 넣고 분류 점수(logits)만 꺼내기
+    return logits.argmax(dim=1)                             # 점수가 높은 쪽을 선택
 
 
-# def accuracy(inputs, labels):
-#     return (predict(inputs) == labels).float().mean().item()
+def accuracy(inputs, labels):
+    return (predict(inputs) == labels).float().mean().item()
 
 
-# print()
-# print("[학습 전]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
+print()
+print("[학습 전]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
 
 
 # ===========================================================
@@ -167,38 +167,38 @@ print(f"학습용 {len(train_images)}장 / 평가용 {len(test_images)}장")
 #  - requires_grad = False : 이 값은 수정하지 않음
 # ===========================================================
 
-# for parameter in model.vit.parameters():
-#     parameter.requires_grad = False
+for parameter in model.vit.parameters():
+    parameter.requires_grad = False
 
-# # 옵티마이저 생성 : model.classifier.parameters() = 학습으로 고쳐질 모델의 모든 값, lr = 학습률
-# optimizer = torch.optim.AdamW(model.classifier.parameters(), lr=1e-3)
+# 옵티마이저 생성 : model.classifier.parameters() = 학습으로 고쳐질 모델의 모든 값, lr = 학습률
+optimizer = torch.optim.AdamW(model.classifier.parameters(), lr=1e-3)
 
-# print()
-# print("[학습]")
-# for epoch in range(1, 11):
-#     model.train()                                           # 학습 모드
-#     order = torch.randperm(len(train_labels))               # 순서 섞기
+print()
+print("[학습]")
+for epoch in range(1, 11):
+    model.train()                                           # 학습 모드
+    order = torch.randperm(len(train_labels))               # 순서 섞기
 
-#     for i in range(0, len(order), 8):                       # 8장씩 묶어서 학습 (batch)
-#         batch = order[i:i + 8]
-#         # 정답(labels)를 함께 넣으면 모델이 예측 점수(logits)와 함께 오차(loss)도 계산해줌
-#         outputs = model(
-#             pixel_values=train_inputs["pixel_values"][batch],
-#             labels=train_labels[batch],
-#         )
-#         loss = outputs.loss
+    for i in range(0, len(order), 8):                       # 8장씩 묶어서 학습 (batch)
+        batch = order[i:i + 8]
+        # 정답(labels)를 함께 넣으면 모델이 예측 점수(logits)와 함께 오차(loss)도 계산해줌
+        outputs = model(
+            pixel_values=train_inputs["pixel_values"][batch],
+            labels=train_labels[batch],
+        )
+        loss = outputs.loss
 
-#         optimizer.zero_grad()                               # 이전 기울기 지우기
-#         loss.backward()                                     # 기울기 계산
-#         optimizer.step()                                    # 값 고치기
+        optimizer.zero_grad()                               # 이전 기울기 지우기
+        loss.backward()                                     # 기울기 계산
+        optimizer.step()                                    # 값 고치기
 
-#     print(f"epoch {epoch:2d} | loss = {loss.item():.3f}")
-#     # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
+    print(f"epoch {epoch:2d} | loss = {loss.item():.3f}")
+    # -> 반복할수록 loss 가 줄어들면 학습이 잘 되고 있는 것
 
-# print()
-# print("[학습 후]")
-# print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
-# print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
+print()
+print("[학습 후]")
+print(f"학습용 정확도 : {accuracy(train_inputs, train_labels):.0%}")
+print(f"평가용 정확도 : {accuracy(test_inputs, test_labels):.0%}")
 
 
 # ===========================================================
@@ -209,7 +209,7 @@ print(f"학습용 {len(train_images)}장 / 평가용 {len(test_images)}장")
 #  - 이미지 프로세서도 같이 저장해야 나중에 같은 방식으로 이미지를 변환할 수 있음
 # ===========================================================
 
-# save_dir = os.path.join(BASE_DIR, "model", "my_image_model")
+save_dir = os.path.join(BASE_DIR, "model", "my_image_model")
 
-# model.save_pretrained(save_dir)
-# processor.save_pretrained(save_dir)
+model.save_pretrained(save_dir)
+processor.save_pretrained(save_dir)
