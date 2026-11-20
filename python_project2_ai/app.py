@@ -1,6 +1,5 @@
 import streamlit as st
 
-from api import get_rest_api_data
 import city_db
 from city_api import API_KEY, AREAS, get_city_info
 
