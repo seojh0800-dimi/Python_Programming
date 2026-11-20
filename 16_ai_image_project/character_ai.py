@@ -6,7 +6,9 @@ import streamlit as st
 from transformers import pipeline
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_DIR = os.path.join(BASE_DIR, "model")
+MODEL_DIR = os.path.abspath(
+    os.path.join(BASE_DIR, "..", "14_ai", "model", "my_image_model")
+)
 
 # ===========================================================
 #  1. 준비하기

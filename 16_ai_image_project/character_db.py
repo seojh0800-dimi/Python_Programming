@@ -21,6 +21,7 @@ DB_PATH = os.path.join(BASE_DIR, "data", "character.db")
 def init_db():
     conn = None
     try:
+        os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
         cur.execute("""

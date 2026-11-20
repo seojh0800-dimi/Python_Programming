@@ -56,6 +56,7 @@ try:
 
         if st.button("DB 저장하기"):
             file = f"{label}_{datetime.now():%Y%m%d_%H%M%S}.jpg"
+            os.makedirs(CAPTURE_DIR, exist_ok=True)
             image.save(os.path.join(CAPTURE_DIR, file))
 
             db.save_detection(label, score, file)
