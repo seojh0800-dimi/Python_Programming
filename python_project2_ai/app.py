@@ -3,6 +3,14 @@ import streamlit as st
 import city_db
 from city_api import API_KEY, AREAS, get_city_info
 
+@st.cache_resource
+def load_ai_model():
+    from sentence_transformers import SentenceTransformer
+    return SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+
+
+city_db.init_db()
+
 st.title("NOWHERE.")
 
 st.subheader("장소 비교")
@@ -87,6 +95,32 @@ if len(results) > 0:
         st.info("조회된 혼잡도 정보가 없어 추천할 수 없습니다.")
     else:
         st.success(f"{best['area_name']}가 비교한 장소 중 가장 여유롭습니다. (혼잡도: {best['congestion_level']})")
+
+    st.subheader("AI 맞춤 장소 추천")
+    request = st.text_input("원하는 장소를 설명해 주세요", placeholder="예: 사람 적고 산책하기 좋은 곳")
+    if st.button("AI로 추천받기"):
+        if not request.strip():
+            st.warning("원하는 조건을 입력해 주세요.")
+        else:
+            with st.spinner("AI 분석 중... (첫 실행에서는 모델을 다운로드합니다)"):
+                try:
+                    model = load_ai_model()
+                    descriptions = []
+                    for place in results:
+                        name = place["area_name"]
+                        kind = ("강변 산책 휴식" if "한강" in name else
+                                "야외 자연 산책" if "공원" in name else
+                                "카페 휴식 대화" if "카페" in name else
+                                "쇼핑 관광" if "관광" in name else "도심 외출")
+                        descriptions.append(f"{name}: {kind}. 현재 혼잡도는 {place['congestion_level']}입니다.")
+
+                    vectors = model.encode([request] + descriptions, normalize_embeddings=True)
+                    scores = vectors[1:] @ vectors[0]
+                    chosen = results[int(scores.argmax())]
+                    st.success(f"AI 추천 장소: {chosen['area_name']} (혼잡도: {chosen['congestion_level']})")
+                    st.caption("선택해 조회한 장소만 비교하는 문장 유사도 추천입니다. 혼잡도 예측 기능은 아닙니다.")
+                except Exception:
+                    st.error("AI 모델을 불러오지 못했습니다. 인터넷 연결과 패키지 설치를 확인해 주세요.")
 
 st.divider()
 favorite_tab, history_tab = st.tabs(["즐겨찾기", "조회 기록"])
