@@ -1,12 +1,8 @@
 import streamlit as st
 
 import city_db
-from city_api import API_KEY, AREAS, get_city_info
-
-@st.cache_resource
-def load_ai_model():
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer("sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
+import city_ai
+from city_api import AREAS, get_city_info
 
 
 city_db.init_db()
@@ -20,7 +16,7 @@ selected = st.multiselect(
     max_selections=3,
 )
 
-if st.button("실시간 정보 조회", type="primary", use_container_width=True):
+if st.button("실시간 정보 조회", type="primary", width="stretch"):
     if len(selected) == 0:
         st.warning("장소를 하나 이상 선택해 주세요.")
     else:
@@ -71,7 +67,7 @@ if len(results) > 0:
             "데이터 기준시각": item["updated_at"],
         })
 
-    st.dataframe(rows, hide_index=True, use_container_width=True)
+    st.dataframe(rows, hide_index=True, width="stretch", alt="선택한 장소의 실시간 혼잡도 정보")
 
     order = {
         "여유": 1,
@@ -104,19 +100,7 @@ if len(results) > 0:
         else:
             with st.spinner("AI 분석 중... (첫 실행에서는 모델을 다운로드합니다)"):
                 try:
-                    model = load_ai_model()
-                    descriptions = []
-                    for place in results:
-                        name = place["area_name"]
-                        kind = ("강변 산책 휴식" if "한강" in name else
-                                "야외 자연 산책" if "공원" in name else
-                                "카페 휴식 대화" if "카페" in name else
-                                "쇼핑 관광" if "관광" in name else "도심 외출")
-                        descriptions.append(f"{name}: {kind}. 현재 혼잡도는 {place['congestion_level']}입니다.")
-
-                    vectors = model.encode([request] + descriptions, normalize_embeddings=True)
-                    scores = vectors[1:] @ vectors[0]
-                    chosen = results[int(scores.argmax())]
+                    chosen = city_ai.recommend_place(request, results)
                     st.success(f"AI 추천 장소: {chosen['area_name']} (혼잡도: {chosen['congestion_level']})")
                     st.caption("선택해 조회한 장소만 비교하는 문장 유사도 추천입니다. 혼잡도 예측 기능은 아닙니다.")
                 except Exception:
@@ -155,7 +139,7 @@ with history_tab:
                 "장소": area_name,
                 "혼잡도": congestion,
             })
-        st.dataframe(history_rows, hide_index=True, use_container_width=True)
+        st.dataframe(history_rows, hide_index=True, width="stretch", alt="장소 조회 기록")
 
 
 st.divider()
